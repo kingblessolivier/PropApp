@@ -1,0 +1,69 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+
+{% block content %}
+    <style>
+    .card {
+        transition: transform 0.2s;
+    }
+
+
+
+    .badge {
+        font-size: 0.9em;
+    }
+
+    .btn {
+        flex: 1; /* Make buttons take equal space */
+        margin: 0 5px; /* Add spacing between buttons */
+    }
+
+    .border {
+        border: 1px solid #ddd; /* Light border for the message box */
+    }
+</style>
+<div class="main-content flex-grow-1 p-4">
+
+            <!-- Close button -->
+            <button class="btn-close" aria-label="Close" onclick="window.history.back()"></button>
+
+    <h4 class="text-primary text-center mb-4">Message Details</h4>
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <div class="mb-3">
+                <p class="card-subtitle mb-2 text-muted"><strong>Sender:</strong> {{ message.name }}</p>
+                <p class="card-subtitle mb-2 text-muted"><strong>Sender's Email:</strong> {{ message.email }}</p>
+                <p class="card-subtitle mb-2 text-muted"><strong>Date message sent:</strong> {{ message.created_at }}</p>
+                <p class="card-text"><strong>Message sent:</strong></p>
+                <div class="border rounded p-3 bg-light">
+                    <p>{{ message.message }}</p>
+                </div>
+                <p class="mt-2"><strong>Status:</strong> <span class="badge {% if not message.is_read  %}bg-info{% elif  message.is_read and message.is_archived %}bg-secondary{% elif message.is_read and not message.is_archived %}bg-success{% endif %} ">{% if not message.is_read  %}Unread{% elif  message.is_read and message.is_archived %}Archieved{% elif message.is_read and not message.is_archived %}Read{% endif %}</span></p>
+            </div>
+
+            <!-- Button Group -->
+            <div class="btn-group d-flex justify-content-between" role="group" aria-label="Message Actions">
+                {% if not message.is_read %}
+                    <a href="/mark-as-read/{{ message.id }}" class="btn btn-success" title="Mark as Read">
+                        <i class="bi bi-check"></i> Mark as Read
+                    </a>
+                {% elif message.is_read and not message.is_archived %}
+                    <a href="/archive-message/{{ message.id }}" class="btn btn-secondary" title="Archive">
+                        <i class="bi bi-archive"></i> Archive
+                    </a>
+                {% endif %}
+
+                <a href="/mail/{{ message.id }}" class="btn btn-primary" title="Reply">
+                    <i class="bi bi-reply"></i> Reply
+                </a>
+
+                <a href="/delete-message/{{ message.id }}" class="btn btn-danger" title="Delete">
+                    <i class="bi bi-trash"></i> Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional: Add some custom CSS for further enhancement -->
+
+{% endblock %}

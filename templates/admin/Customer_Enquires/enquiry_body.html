@@ -1,0 +1,88 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+
+{% block content %}
+<style>
+    .card {
+        transition: transform 0.2s;
+    }
+
+    .badge {
+        font-size: 0.9em;
+    }
+
+    .btn {
+        flex: 1;
+        margin: 0 5px;
+    }
+
+    .border {
+        border: 1px solid #ddd;
+    }
+
+    .property-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+</style>
+<div class="main-content flex-grow-1 p-4">
+    <!-- Close button -->
+    <button class="btn-close" aria-label="Close" onclick="window.history.back()"></button>
+
+    <h4 class="text-primary text-center mb-4">Enquiry Details</h4>
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <div class="mb-3">
+                <p class="card-subtitle mb-2 text-muted"><strong>Sender:</strong> {{ enquiry.name }}</p>
+                <p class="card-subtitle mb-2 text-muted"><strong>Sender's Email:</strong> {{ enquiry.email }}</p>
+                <p class="card-subtitle mb-2 text-muted"><strong>Property Name:</strong> {{ enquiry.property.name }}</p>
+              <p class="card-subtitle mb-2 text-muted"><strong>Property Owner:</strong> {{ enquiry.property.owner.name }}</p>
+                <p class="card-subtitle mb-2 text-muted"><strong>Property Location:</strong> {{ enquiry.property.address }}</p>
+                <p class="card-subtitle mb-2 text-muted"><strong>Property Price:</strong> {{ enquiry.property.price }} Frw</p>
+                <p class="card-subtitle mb-2 text-muted"><strong>Property State: {% if enquiry.property.status == 'Available' %}<span class="text-success">Available</span>{% else %}<span class="text-danger">Rented</span>{% endif %} </strong></p>
+                <div class="mb-3">
+                    <p class="card-subtitle mb-2 text-muted"><strong>Property Image:</strong></p>
+                    <img src="{{ enquiry.property.image.url }}" alt="Property Image" class="property-image" style="height: 200px; object-fit: cover;">
+                </div>
+                <p class="card-subtitle mb-2 text-muted"><strong>Date Sent:</strong> {{ enquiry.created_at }}</p>
+                <p class="card-text"><strong>Customer Enquiry:</strong></p>
+                <div class="border rounded p-3 bg-light">
+                    <p>{{ enquiry.message }}</p>
+                </div>
+                <p class="mt-2"><strong>Status:</strong>
+                    <span class="badge
+                        {% if not enquiry.is_read  %}bg-info{% elif enquiry.is_read and enquiry.is_archived %}bg-secondary{% elif enquiry.is_read and not enquiry.is_archived %}bg-success{% endif %}">
+                        {% if not enquiry.is_read  %}Unread{% elif enquiry.is_read and enquiry.is_archived %}Archived{% elif enquiry.is_read and not enquiry.is_archived %}Read{% endif %}
+                    </span>
+                </p>
+            </div>
+
+            <!-- Button Group -->
+            <div class="btn-group d-flex justify-content-between" role="group" aria-label="Enquiry Actions">
+                {% if not enquiry.is_read %}
+                    <a href="/admin_enquiries/mark-as-read/{{ enquiry.id }}" class="btn btn-success" title="Mark as Read">
+                        <i class="bi bi-check"></i> Mark as Read
+                    </a>
+                {% elif enquiry.is_read and not enquiry.is_archived %}
+                    <a href="/admin_enquiries/archive-message/{{ enquiry.id }}" class="btn btn-secondary" title="Archive">
+                        <i class="bi bi-archive"></i> Archive
+                    </a>
+                {% endif %}
+            {% if enquiry.is_read and  enquiry.is_archived %}
+                <a href="/admin_enquiries/unarchive_message/{{ enquiry.id }}" class="btn btn-success" title="Unarchive">
+                    <i class="bi bi-archive"></i> Unarchive
+                </a>
+            {% endif %}
+
+                <a href="/admin_enquiries/reply_enquiry/{{ enquiry.id }}" class="btn btn-primary" title="Reply">
+                    <i class="bi bi-reply"></i> Reply
+                </a>
+
+                <a href="/admin_enquiries/delete-message/{{ enquiry.id }}" class="btn btn-danger" title="Delete">
+                    <i class="bi bi-trash"></i> Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

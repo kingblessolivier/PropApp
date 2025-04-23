@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tenant Dashboard | PropApp{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+        body {
+            background-color: #f0f2f5; /* Light background */
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            color: darkgray;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            overflow-y: auto;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar a {
+            color: white;
+            padding: 15px 10px;
+            display: block;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: darkgray;
+            color: white;
+            border-radius: 5px;
+        }
+        .main-content {
+            padding: 20px;
+             margin-left: 105px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .table th {
+            background-color: #007bff; /* Table header color */
+            color: white;
+        }
+        .table {
+            font-size: 14px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table img {
+            max-width: 50px;
+            max-height: 50px;
+            object-fit: cover;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Hover effect to highlight rows */
+        .table tr:hover {
+            background-color: #222222;
+            color: white;
+        }
+
+        /* Unit container styling */
+        .unit-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .unit-container h5 {
+            margin-bottom: 15px;
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: red;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar p-3">
+            {% if tenant.image %}
+            <h3 class="mb-3">
+                <img src="{{ tenant.image.url }}" alt="Tenant Image" class="rounded-circle mx-auto mb-1 img-responsive" style="width: 50px; height: 50px;">
+                {{ user.username }}
+            </h3>
+            {% else %}
+            <h3 class="mb-3"><i class="fa fa-user"></i> {{ user.username }}</h3>
+            {% endif %}
+
+            <!-- Show online -->
+            <div class="status">
+                <i class="fa fa-circle" style="color: green;"></i> Online
+            </div>
+
+            <ul class="nav flex-column mt-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="dashboardLink"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="{% url 'tenant_profile' user.id %}" id="tenantsLink"><i class="fa fa-users"></i> Profile</a>
+                </li>
+                  <li class="nav-item">
+
+                        <a class="nav-link" href="{% url 'tenant_contracts' user.id %}" id="contractsLink"><i class="fa fa-file-contract"></i> Contracts</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tenant_properties' user.id %}" id="propertiesLink"><i class="fa fa-building"></i> Properties</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'make_payment' %}" id="rentLink"><i class="fa fa-dollar-sign"></i> Payments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="maintenanceLink"><i class="fa fa-tools"></i> Maintenance Requests</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="messagesLink"><i class="fa fa-envelope"></i> Messages <span class="badge bg-danger">{{ message_total }}</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}"><i class="fa fa-home"></i> Home Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        {% block content %}
+        <!-- Main content will be loaded here -->
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+{% extends 'Others_dashboard/owners/owner_base.html' %}
+{% load static %}
+
+{% block title %}
+View Contract
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--links for icons bootstrap and font awesome ends here-->
+
+
+
+<style>
+    /* Custom Styles for View Contract Section */
+    #view-contract {
+        margin-top: 30px;
+        padding: 30px;
+        background-color: #f1f3f5;
+        border-radius: 10px;
+    }
+
+    .section-header {
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .contract-details {
+        margin-top: 20px;
+    }
+
+    .contract-details .card {
+        border: 1px solid #eaeaea;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .contract-details .card-body {
+        padding: 20px;
+    }
+
+    .contract-details .details-item {
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #6c757d; /* Muted text color */
+    }
+
+    .contract-details .details-item strong {
+        color: #2f4f4f; /* Dark Slate Gray */
+        margin-right: 5px;
+    }
+
+    .contract-details .details-item .badge {
+        font-size: 1rem;
+        padding: 5px 10px;
+    }
+
+    .back-button {
+        background-color: darkslategrey; /* Dark Slate Gray */
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 10px 20px;
+    }
+
+    .back-button:hover {
+        background-color: #d2691e; /* Chocolate */
+        transform: scale(1.05);
+    }
+
+    .action-buttons {
+        margin-top: 20px;
+    }
+
+    .action-buttons a.btn {
+        border-radius: 30px;
+        padding: 10px 20px;
+        margin-bottom: 10px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-right: 10px;
+    }
+
+    .action-buttons .btn-success {
+        background-color: darkslategrey; /* Dark Slate Gray */
+        border-color: darkslategrey; /* Dark Slate Gray */
+    }
+
+    .action-buttons .btn-success:hover {
+        background-color: #d2691e; /* Chocolate */
+        color: white;
+    }
+
+    .action-buttons .btn-info {
+        background-color: #17a2b8; /* Cyan */
+        border-color: #17a2b8; /* Cyan */
+    }
+
+    .action-buttons .btn-info:hover {
+        background-color: #138496; /* Darker Cyan */
+        color: white;
+    }
+
+    .action-buttons .btn-warning {
+        background-color: #ffc107; /* Yellow */
+        border-color: #ffc107; /* Yellow */
+    }
+
+    .action-buttons .btn-warning:hover {
+        background-color: #e0a800; /* Darker Yellow */
+        color: white;
+    }
+
+    .action-buttons .btn-danger {
+        background-color: #dc3545; /* Red */
+        border-color: #dc3545; /* Red */
+    }
+
+    .action-buttons .btn-danger:hover {
+        background-color: #c82333; /* Darker Red */
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .contract-details .card {
+            border-radius: 8px;
+        }
+
+        .contract-details .card-body {
+            padding: 15px;
+        }
+
+        .action-buttons a.btn {
+            padding: 8px 15px;
+            margin-right: 5px;
+        }
+
+        .back-button {
+            padding: 8px 15px;
+        }
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-4">
+    <!-- Header section -->
+    <div class="row mb-4 section-header">
+        <div class="col-md-12">
+            <h4 class="text-primary">View Contract</h4>
+        </div>
+    </div>
+
+    <!-- Contract Details -->
+    <div id="view-contract" class="container contract-details">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title d-flex align-items-center">
+                    <i class="bi bi-file-earmark-contract me-2"></i>
+                    Contract Details
+                </h5>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-building me-2"></i>
+                    <strong>Property:</strong> {{ lease.property.name }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-person-lines-fill me-2"></i>
+                    <strong>Tenant:</strong> {{ lease.tenant.name }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-person-fill me-2"></i>
+                    <strong>Owner:</strong> {{ lease.owner.name }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-calendar-date-fill me-2"></i>
+                    <strong>Start Date:</strong> {{ lease.start_date }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-calendar-date-fill me-2"></i>
+                    <strong>End Date:</strong> {{ lease.end_date }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-currency-dollar me-2"></i>
+                    <strong>Rent Amount:</strong> <b>{{ lease.rent_amount }} Frw</b>
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-type"></i>
+                    <strong>Property Type:</strong> {{ lease.property.get_types_display }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    <strong>Address:</strong> {{ lease.property.address }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-door-open-fill me-2"></i>
+                    <strong>Bedrooms:</strong> {{ lease.property.bedrooms }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-door-open-fill me-2"></i>
+                    <strong>Bathrooms:</strong> {{ lease.property.bathrooms }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-door-open me-2"></i>
+                    <strong>Number of Units:</strong> {{ lease.property.number_of_units }}
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-star-fill me-2"></i>
+                    <strong>Status:</strong>
+                    <span class="badge {% if lease.contract_accepted and lease.contract_signed %}bg-danger{% elif lease.contract_accepted %}bg-success{% else %}bg-secondary{% endif %}">
+                        {% if lease.contract_accepted and lease.contract_signed %}
+                            Signed
+                        {% elif lease.contract_accepted and not lease.contract_signed %}
+                            Accepted
+                        {% else %}
+                            Made
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="details-item d-flex align-items-center">
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    <strong>Contract Details:</strong>
+                    <p class="mt-2">{{ lease.contract_details }}</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons d-flex justify-content-center">
+                    <a href="{% url 'owner_contracts' user.id %}" class="btn btn-info btn-action" title="Back to Properties">
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Back
+                    </a>
+                    <a href="{% url 'download_contract' lease.id %}" class="btn btn-success btn-action" title="Download Contract">
+                        <i class="bi bi-download me-2"></i>
+                        Download Contract
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.js"></script>
+
+{% endblock %}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | PropApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <style>
+        body {
+            background-color: #f0f2f5; /* Light background */
+            font-family: 'arial', sans-serif;
+            font-size: 14px;
+
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            color: darkgray;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            overflow-y: auto;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            shape-outside: circle(50% at 50% 0);
+        }
+
+        .sidebar a {
+            color: white;
+        }
+        .sidebar a:hover {
+            background-color: darkgray;
+            color: white;
+            border-radius: 5px;
+        }
+        .main-content {
+            padding: 20px;
+            margin-left: 210px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .table th {
+            background-color: #007bff; /* Table header color */
+            color: white;
+        }
+        .filter-input {
+            margin-bottom: 20px;
+        }
+
+        /* Customizing table to look like database with background colors same as in 3rd column */
+        .table {
+            font-size: 14px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table th, .table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table img {
+            max-width: 50px;
+            max-height: 50px;
+            object-fit: cover;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Hover effect to highlight rows */
+        .table tr:hover {
+            background-color: #222222;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar p-3">
+            <h3><i class="fa fa-user" style="color: white; box-shadow: 10px 2px 10px rgba(10, 10, 10, 0.3); padding: 10px; border-radius: 50%;"></i> {{ user.username }}</h3>
+            <!--show online-->
+            <div class="status">
+                <i class="fa fa-circle" style="color: green;"></i> Online
+            </div>
+
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}" id="dashboardLink"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_users' %}" id="usersLink"><i class="fa fa-users"></i> Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_properties' %}" id="propertiesLink"><i class="fa fa-building"></i> Properties</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_owners' %}" id="ownersLink"><i class="fa fa-user-circle"></i> Owners</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_tenants' %}" id="tenantsLink"><i class="fa fa-user"></i> Tenants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="leaseLink"><i class="fa fa-calendar"></i> Leases</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'message_list' %}" id="messagesLink"><i class="fa fa-envelope"></i> Messages <span class="badge bg-danger">{{ message_total }}</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_inquiries' %}" id="EnquiriesLink"><i class="fa fa-question"></i> Enquiries <span class="badge bg-danger">{{ total_enquiries }}</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_updates' %}" id="UpdatesLink"><i class="fa fa-bell"></i>Updates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="ReportsLink"><i class="fa fa-file"></i> Reports</a>
+                </li>
+               <li class="nav-item">
+                    <a class="nav-link" href="#" id="SettingsLink"><i class="fa fa-cogs"></i> Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}" id="siteLink"><i class="fa fa-home"></i> Vist Site</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_logout' %}"><i class="fa fa-sign-out"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  <script>
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+</html>

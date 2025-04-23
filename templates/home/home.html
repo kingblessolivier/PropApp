@@ -1,0 +1,322 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- Home Section -->
+<section id="home" class="py-5" style="background-image: url('{% static 'images/prop.jpg' %}'); background-size: cover; background-position: center; visibility: visible; opacity: 1; transform: scale(1);">
+    <div class="container" style="position: relative; z-index: 1; text-align: center;">
+        <h1 class="display-4 p-5 mt-5" style="color: white; text-shadow: 2px 2px 2px black;">Welcome to PropApp</h1>
+        <p class="lead shadow-sm" style="color: white; text-shadow: 2px 2px 2px black;">
+            <strong>PropApp is Your One-Stop Solution for Property Management.</strong>
+        </p>
+        <a href="#what-we-do" class="btn btn-light btn-lg mt-3" style="background-color: darkslategrey; border-color: darkslategrey; color: white;">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Learn More
+        </a>
+    </div>
+</section>
+
+<!-- What We Do Section -->
+<section id="what-we-do" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4 text-success" style="border-left: 5px solid darkslategrey; padding-left: 10px;">What We Do</h2>
+        <p class="text-center text-muted">At PropApp, we aim to revolutionize property management by providing a comprehensive platform for property owners, tenants, and real estate professionals. Our services are designed to simplify and streamline the property management process, ensuring efficiency, transparency, and convenience for all parties involved.</p>
+
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="card border-success shadow-sm animated fadeInUp">
+                    <div class="card-body">
+                        <i class="bi bi-house-door text-success" style="font-size: 2rem;"></i>
+                        <h3 class="card-title text-success">Property Listings</h3>
+                        <p class="card-text">Manage and list your properties with ease. The intuitive interface allows quick uploads and modifications, ensuring your listings are always up-to-date.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="card border-success shadow-sm animated fadeInUp">
+                    <div class="card-body">
+                        <i class="bi bi-person-circle text-success" style="font-size: 2rem;"></i>
+                        <h3 class="card-title text-success">Tenant Management</h3>
+                        <p class="card-text">We offer robust tenant management features including screening, background checks, and lease tracking, ensuring a seamless experience for both landlords and tenants.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="card border-success shadow-sm animated fadeInUp">
+                    <div class="card-body">
+                        <i class="bi bi-bell text-success" style="font-size: 2rem;"></i>
+                        <h3 class="card-title text-success">Updates & Notifications</h3>
+                        <p class="card-text">Stay informed with real-time updates and notifications about your properties, tenants, and market insights through our integrated communication tools.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4 text-center mb-4">
+                <div class="card border-success shadow-sm animated fadeInUp">
+                    <div class="card-body">
+                        <i class="bi bi-telephone text-success" style="font-size: 2rem;"></i>
+                        <h3 class="card-title text-success">Customer Support</h3>
+                        <p class="card-text">Our dedicated customer support team is here to help, ensuring all your queries are resolved promptly for a smooth management experience.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="card border-success shadow-sm animated fadeInUp">
+                    <div class="card-body">
+                        <i class="bi bi-shield-lock text-success" style="font-size: 2rem;"></i>
+                        <h3 class="card-title text-success">Secure Transactions</h3>
+                        <p class="card-text">We ensure all transactions and data are secure, giving you peace of mind when managing your properties and finances.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="card border-success shadow-sm animated fadeInUp">
+                    <div class="card-body">
+                        <i class="bi bi-graph-up text-success" style="font-size: 2rem;"></i>
+                        <h3 class="card-title text-success">Market Insights</h3>
+                        <p class="card-text">Gain valuable insights into the real estate market with our analytics tools, helping you make informed decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center mt-4">
+                <h3 class="text-success" style="border-left: 5px solid darkslategrey; padding-left: 10px;">Why Choose PropApp?</h3>
+                <p class="text-muted">Our commitment to innovation, customer service, and security makes us the ideal partner in property management.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Properties Section -->
+<section id="featured-properties" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4 text-success" style="border-right: 5px solid darkslategrey; padding-right: 10px;">Featured Properties</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for property in featured_properties %}
+            <div class="col">
+                <div class="card property-card h-100 shadow">
+                    <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.name }}" style="max-height: 300px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title d-flex align-items-center">
+                            <i class="bi bi-home me-2"></i>
+                            {{ property.name }}
+                        </h5>
+                        <p class="card-text text-truncate" title="{{ property.description }}">
+                            <strong></strong> {{ property.description|truncatewords:20 }}
+                        </p>
+                        <div class="details-item d-flex align-items-center">
+                            <i class="bi bi-geo-alt me-2"></i>
+                            <strong>Address:</strong> {{ property.address }}
+                        </div>
+                        <div class="details-item d-flex align-items-center">
+                            <i class="bi bi-building me-2"></i>
+                            <strong>Type:</strong> {{ property.get_types_display }}
+                        </div>
+                        <div class="details-item d-flex align-items-center">
+                            <i class="bi bi-cash me-2"></i>
+                            <strong>Price:</strong> <b>{{ property.price }} Rwf</b>
+                        </div>
+                        <div class="details-item d-flex align-items-center">
+                            <i class="bi bi-door-open me-2"></i>
+                            <strong>Number of Units:</strong> {{ property.number_of_units }}
+                        </div>
+
+                        <div class="details-item d-flex align-items-center">
+                            <i class="bi bi-calendar me-2"></i>
+                            <strong>Status:</strong>
+                            <span class="badge {% if property.status == 'Available' %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ property.status }}
+                            </span>
+                        </div>
+                        <div class="details-item d-flex align-items-center">
+                            <i class="bi bi-person me-2"></i>
+                            <strong>Owner:</strong> {{ property.owner.name }}
+                        </div>
+                        <!-- Call-to-Action Button -->
+                        <div class="d-flex justify-content-center mt-4">
+                            <a href="{% url 'property_view' property.id %}" class="btn btn-dark d-flex align-items-center justify-content-center">
+                                <i class="bi bi-eye me-2"></i>
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-5 bg-light">
+    <div class="container py-5">
+        <h2 class="text-center mb-4 text-success" style="border-left: 5px solid darkslategrey; padding-left: 10px;">What Our Users Say</h2>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="card shadow-sm">
+                                <img src="{% static 'images/man5.jpeg' %}" alt="Sarah K." class="card-img-top rounded-circle mx-auto" style="width: 100px; height: 100px; padding-top: 5px;">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">"PropApp has transformed my property management experience!"</p>
+                                    </blockquote>
+                                    <footer class="blockquote-footer text-success" style="font-size: 14px; margin-bottom: 0;">Sarah K., Property Owner</footer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="card shadow-sm">
+                                <img src="{% static 'images/man0.jpeg' %}" alt="Mike T." class="card-img-top rounded-circle mx-auto" style="width: 100px; height: 100px; padding-top: 5px;">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">"The customer support is phenomenal!"</p>
+                                    </blockquote>
+                                    <footer class="blockquote-footer text-success" style="font-size: 14px; margin-bottom: 0;">Mike T., Tenant</footer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="card shadow-sm">
+                                <img src="{% static 'images/man3.jpeg' %}" alt="Lisa M." class="card-img-top rounded-circle mx-auto" style="width: 100px; height: 100px; padding-top: 5px;">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">"Market insights feature helps me make educated decisions!"</p>
+                                    </blockquote>
+                                    <footer class="blockquote-footer text-success" style="font-size: 14px; margin-bottom: 0;">Lisa M., Real Estate Professional</footer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="card shadow-sm">
+                                <img src="{% static 'images/man2.jpeg' %}" alt="John D." class="card-img-top rounded-circle mx-auto" style="width: 100px; height: 100px; padding-top: 5px;">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">"User-friendly interface that's easy to navigate!"</p>
+                                    </blockquote>
+                                    <footer class="blockquote-footer text-success" style="font-size: 14px; margin-bottom: 0;">John D., Property Manager</footer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="card shadow-sm">
+                                <img src="{% static 'images/man1.jpeg' %}" alt="Emma L." class="card-img-top rounded-circle mx-auto" style="width: 100px; height: 100px; padding-top: 5px;">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">"PropApp has made it simple to manage multiple properties!"</p>
+                                    </blockquote>
+                                    <footer class="blockquote-footer text-success" style="font-size: 14px; margin-bottom: 0;">Emma L., Investor</footer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="card shadow-sm">
+                                <img src="{% static 'images/man0.jpeg' %}" alt="Tom R." class="card-img-top rounded-circle mx-auto" style="width: 100px; height: 100px; padding-top: 5px;">
+                                <div class="card-body">
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">"The updates feature keeps everyone in the loop!"</p>
+                                    </blockquote>
+                                    <footer class="blockquote-footer text-success" style="font-size: 14px; margin-bottom: 0;">Tom R., Tenant</footer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- FAQs Section -->
+<section id="faqs" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4 text-success" style="border-left: 5px solid darkslategrey; padding-left: 10px;">Frequently Asked Questions</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <h5 class="faq-title" style="cursor: pointer;" onclick="toggleFAQ('faq1', this);">
+                    <i class="bi bi-question-circle me-2"></i>
+                    1. How do I list my property? <span class="faq-toggle">+</span>
+                </h5>
+                <p class="faq-content" id="faq1" style="display: none; margin-top: 10px; padding: 10px; background-color: #f1f3f5; border-radius: 10px;">
+                    Listing your property is easy with PropApp. Simply create an account, navigate to the "Property Listings" section, and follow the prompts to upload your listing details and images.
+                </p>
+            </div>
+            <div class="col-md-6 mb-4">
+                <h5 class="faq-title" style="cursor: pointer;" onclick="toggleFAQ('faq2', this);">
+                    <i class="bi bi-shield-lock me-2"></i>
+                    2. Is PropApp secure? <span class="faq-toggle">+</span>
+                </h5>
+                <p class="faq-content" id="faq2" style="display: none; margin-top: 10px; padding: 10px; background-color: #f1f3f5; border-radius: 10px;">
+                    Yes! We prioritize security and use advanced encryption methods to protect your data and transactions.
+                </p>
+            </div>
+            <div class="col-md-6 mb-4">
+                <h5 class="faq-title" style="cursor: pointer;" onclick="toggleFAQ('faq3', this);">
+                    <i class="bi bi-list me-2"></i>
+                    3. Can I manage multiple properties? <span class="faq-toggle">+</span>
+                </h5>
+                <p class="faq-content" id="faq3" style="display: none; margin-top: 10px; padding: 10px; background-color: #f1f3f5; border-radius: 10px;">
+                    Absolutely! PropApp is designed for property managers and owners with multiple listings, making it easy to keep track of each property.
+                </p>
+            </div>
+            <div class="col-md-6 mb-4">
+                <h5 class="faq-title" style="cursor: pointer;" onclick="toggleFAQ('faq4', this);">
+                    <i class="bi bi-chat-dots me-2"></i>
+                    4. Who do I contact for support? <span class="faq-toggle">+</span>
+                </h5>
+                <p class="faq-content" id="faq4" style="display: none; margin-top: 10px; padding: 10px; background-color: #f1f3f5; border-radius: 10px;">
+                    You can reach our customer support team via the Contact Us section or by directly emailing support@propapp.com.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call-to-Action Section -->
+<section id="cta" class="py-5 text-center" style=" color: black; margin-bottom: 0;">
+    <div class="container">
+        <h2 class="mt-5">Ready to Get Started?</h2>
+        <p class="lead">Join us today and experience hassle-free property management!</p>
+        <a href="{% url 'user_login' %}" class="btn btn-light btn-lg" style="background-color: darkslategrey; color: white;">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Login
+        </a>
+        <a href="{% url 'register' %}" class="btn btn-light btn-lg" style="background-color: darkslategrey; color: white;">
+            <i class="bi bi-person-plus me-2"></i>Sign Up
+        </a>
+    </div>
+</section>
+
+<script>
+    // FAQ Toggle
+    function toggleFAQ(id, element) {
+        var content = document.getElementById(id);
+        var toggle = element.querySelector('.faq-toggle');
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';
+            toggle.textContent = '-';
+        } else {
+            content.style.display = 'none';
+            toggle.textContent = '+';
+        }
+    }
+</script>
+
+{% endblock %}

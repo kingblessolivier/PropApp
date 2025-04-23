@@ -1,0 +1,107 @@
+{% extends 'Others_dashboard/Tenants/tenant_base.html' %}
+{% load static %}
+
+{% block title %}
+Make Payment
+{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Styling for the overall layout */
+    .main-content {
+        margin-left: 90px;
+    }
+    .background-overlay {
+        background: rgba(255, 255, 255, 0.9); /* White with transparency */
+        padding: 20px; /* Space around the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    }
+    .form-control, .form-select {
+        border: 1px solid rgba(0, 123, 255, 0.5); /* Subtle blue border */
+        background: transparent; /* No background color */
+        color: #000; /* Black text for contrast */
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff; /* Darker blue border on focus */
+        box-shadow: none; /* Remove shadow on focus */
+    }
+    .card-header {
+        background: rgba(0, 123, 255, 0.8); /* Darker blue background */
+    }
+    .card-header h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .btn-primary {
+        background-color: #007bff; /* Professional blue */
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .btn-secondary {
+        background-color: #6c757d; /* Professional grey */
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Darker grey on hover */
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-4">
+    <!-- Header section -->
+    <div class="row mb-4 section-header">
+        <div class="col-md-12">
+            <h4 class="text-primary"><i class="bi bi-cash"></i> Make Payment</h4>
+        </div>
+    </div>
+
+    <!-- Payment Form -->
+    <div class="container">
+        <div class="background-overlay">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header text-white text-center rounded-top bg-primary">
+                    <h2 class="mb-0">Payment Details</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form id="payment-form" method="post" action="{% url 'make_payment' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="property" class="form-label">Property</label>
+                            <select id="property" class="form-select" name="property">
+                                {% for lease in leases %}
+                                    <option value="{{ lease.property.id }}">{{ lease.property.name }}</option>
+                                {% empty %}
+                                    <option value="" disabled>No properties found.</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount to Pay</label>
+                            <input type="number" id="amount" class="form-control" name="amount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date_paid" class="form-label">Date Paid</label>
+                            <input type="datetime-local" id="date_paid" class="form-control" name="date_paid" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-cash"></i> Pay with PayPal
+                            </button>
+                            <a href="#" class="btn btn-secondary me-2">
+                                <i class="bi bi-arrow-left"></i> Back to Leases
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.js"></script>
+
+{% endblock %}

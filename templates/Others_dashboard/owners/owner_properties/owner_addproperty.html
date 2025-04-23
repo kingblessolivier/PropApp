@@ -1,0 +1,242 @@
+{% extends 'Others_dashboard/owners/owner_base.html' %}
+
+{% block content %}
+
+{# Use working icons from FontAwesome #}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+    body {
+        color: #333; /* Dark text for contrast */
+    }
+    .background-overlay {
+        background: rgba(255, 255, 255, 0.9); /* White with transparency */
+        padding: 20px; /* Space around the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    }
+    .form-control, .form-select {
+        border: 1px solid rgba(0, 123, 255, 0.5); /* Subtle blue border */
+        background: transparent; /* No background color */
+        color: #000; /* Black text for contrast */
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff; /* Darker blue border on focus */
+        box-shadow: none; /* Remove shadow on focus */
+    }
+    .card-header {
+        background: rgba(0, 123, 255, 0.8); /* Darker blue background */
+    }
+    .card-header h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .btn-primary {
+        background-color: #007bff; /* Professional blue */
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .btn-secondary {
+        background-color: #6c757d; /* Professional grey */
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Darker grey on hover */
+    }
+    .unit-container {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid rgba(0, 123, 255, 0.3);
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .unit-container h5 {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-1">
+    <div class="container mt-1">
+        <div class="background-overlay">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header text-white text-center rounded-top bg-primary">
+                    <h2 class="mb-0"><i class="fas fa-plus-circle"></i> Add Property</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form id="addPropertyForm" method="POST" action="/owner_properties/add_property/{{ user.id }}" enctype="multipart/form-data" novalidate class="needs-validation">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="propertyName" class="form-label">
+                                    <i class="fas fa-home"></i> Property Name
+                                </label>
+                                <input type="text" class="form-control" id="propertyName" placeholder="e.g., MIC" name="name" required data-bs-toggle="tooltip" title="Enter the name of the property">
+                                <div class="invalid-feedback">Please provide a property name.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="propertyAddress" class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Property Address
+                                </label>
+                                <input type="text" class="form-control" id="propertyAddress" placeholder="e.g., Kigali, Rwanda" name="address" required data-bs-toggle="tooltip" title="Enter the full address">
+                                <div class="invalid-feedback">Please provide a property address.</div>
+                            </div>
+                        </div>
+                    <!-- add price-->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="propertyPrice" class="form-label">
+                                <i class="fas fa-dollar-sign"></i> Property Price
+                            </label>
+                            <input type="number" class="form-control" id="propertyPrice" placeholder="e.g., 1000000" name="price" required data-bs-toggle="tooltip" title="Enter the price of the property">
+                            <div class="invalid-feedback">Please provide a property price.</div>
+                        </div>
+                    </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="propertyType" class="form-label">
+                                    <i class="fas fa-building"></i> Property Type
+                                </label>
+                                <select class="form-select" id="propertyType" name="property_type" required data-bs-toggle="tooltip" title="Select the type of property">
+                                    <option selected disabled></option>
+                                    <option value="Apartment">Apartment</option>
+                                    <option value="House">House</option>
+                                    <option value="Commercial">Commercial</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a property type.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="propertyDescription" class="form-label">
+                                    <i class="fas fa-align-left"></i> Property Description
+                                </label>
+                                <textarea class="form-control" id="propertyDescription" rows="3" name="description" required data-bs-toggle="tooltip" title="Provide a brief description of the property"></textarea>
+                                <div class="invalid-feedback">Please provide a property description.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="propertyImage" class="form-label">
+                                <i class="fas fa-image"></i> Property Image
+                            </label>
+                            <input type="file" class="form-control" id="propertyImage" name="image" required data-bs-toggle="tooltip" title="Upload an image of the property">
+                            <div class="invalid-feedback">Please provide a property image.</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="propertyOwner" class="form-label">
+                                    <i class="fas fa-user"></i> Property Owner
+                                </label>
+                                <select class="form-select" id="propertyOwner" name="owner" required data-bs-toggle="tooltip" title="Select the owner of the property">
+                                    <option value="{{ owner.id }}">{{ owner.name }}</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a property owner.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="propertyUnits" class="form-label">
+                                    <i class="fas fa-th-large"></i> Number of Units
+                                </label>
+                                <input type="number" class="form-control" id="propertyUnits" placeholder="e.g., 100" name="number_of_units" required data-bs-toggle="tooltip" title="Enter the number of units available">
+                                <div class="invalid-feedback">Please provide the number of units.</div>
+                            </div>
+                        </div>
+                        <div id="units">
+                            <!-- Unit fields will be added here -->
+                        </div>
+                        <div class="text-center mb-3">
+                            <button type="button" class="btn btn-primary" onclick="addUnit()">
+                                <i class="fas fa-plus-circle"></i> Add Unit
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary me-2" onclick="window.location.href='{% url 'owner_properties' user.id %}'">
+                                <i class="fas fa-arrow-left"></i> Go Back
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+
+    function addUnit() {
+        var unitsContainer = document.getElementById('units');
+        var unitCount = unitsContainer.children.length + 1;
+
+        var unitContainer = document.createElement('div');
+        unitContainer.className = 'unit-container';
+        unitContainer.innerHTML = `
+            <h5>Unit ${unitCount}</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="unitNumber${unitCount}" class="form-label">
+                        <i class="fas fa-hashtag"></i> Unit Number
+                    </label>
+                    <input type="text" class="form-control" id="unitNumber${unitCount}" name="unit_number[]" required data-bs-toggle="tooltip" title="Enter the unit number">
+                    <div class="invalid-feedback">Please provide a unit number.</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="bedrooms${unitCount}" class="form-label">
+                        <i class="fas fa-bed"></i> Bedrooms
+                    </label>
+                    <input type="number" class="form-control" id="bedrooms${unitCount}" name="bedrooms[]" required data-bs-toggle="tooltip" title="Enter the number of bedrooms">
+                    <div class="invalid-feedback">Please provide the number of bedrooms.</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="bathrooms${unitCount}" class="form-label">
+                        <i class="fas fa-bath"></i> Bathrooms
+                    </label>
+                    <input type="number" class="form-control" id="bathrooms${unitCount}" name="bathrooms[]" required data-bs-toggle="tooltip" title="Enter the number of bathrooms">
+                    <div class="invalid-feedback">Please provide the number of bathrooms.</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="rent${unitCount}" class="form-label">
+                        <i class="fas fa-dollar-sign"></i> Rent
+                    </label>
+                    <input type="number" class="form-control" id="rent${unitCount}" name="rent[]" required data-bs-toggle="tooltip" title="Enter the rent amount">
+                    <div class="invalid-feedback">Please provide a rent amount.</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="isAvailable${unitCount}" class="form-label">
+                    <i class="fas fa-check-circle"></i> Is Available
+                </label>
+                <input type="checkbox" class="form-check-input" id="isAvailable${unitCount}" name="is_available[]" checked data-bs-toggle="tooltip" title="Check if the unit is available">
+            </div>
+        `;
+
+        unitsContainer.appendChild(unitContainer);
+    }
+
+    (function () {
+        'use strict';
+
+        // Enable Bootstrap validation
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+
+{% endblock %}

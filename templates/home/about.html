@@ -1,0 +1,183 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+<style>
+    /* Custom Styles for About Us Section */
+    #about {
+        border-radius: 8px; /* Rounded corners */
+        padding: 30px; /* Padding around the section */
+        background-color: #e9f7f5; /* Light background color */
+    }
+
+    .text-success {
+        color: #28a745; /* Green color for headings */
+    }
+
+    .rounded-circle {
+        border-radius: 50%; /* Ensures images are circular */
+    }
+
+    .card {
+        border: 1px solid #eaeaea; /* Light border for cards */
+        border-radius: 10px; /* Rounded corners for cards */
+        overflow: hidden; /* Ensures content is contained within the card */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
+        transition: transform 0.2s; /* Smooth scaling effect on hover */
+    }
+
+    .card:hover {
+        transform: scale(1.05); /* Slightly enlarge card on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+    }
+
+    .card-body {
+        padding: 20px; /* Padding inside the card body */
+    }
+
+    .card-img-top {
+        height: 150px; /* Reduced height for images */
+        object-fit: cover; /* Ensures images cover the entire area */
+        width: 100%; /* Full width of the card */
+        border-radius: 10px 10px 0 0; /* Rounded top corners for images */
+    }
+
+    .card-img-bottom {
+        height: 150px; /* Reduced height for bottom images */
+        object-fit: cover; /* Ensures images cover the entire area */
+        width: 100%; /* Full width of the card */
+        border-radius: 0 0 10px 10px; /* Rounded bottom corners for images */
+    }
+
+    .section-title {
+        border-left: 5px solid darkslategrey; /* Left border for section titles */
+        padding-left: 10px; /* Padding for section titles */
+        margin-bottom: 20px; /* Margin for section titles */
+    }
+
+    .list-group-item {
+        border-bottom: 1px solid #eaeaea; /* Light border between list items */
+        padding: 10px 20px; /* Padding for list items */
+    }
+
+    .list-group-item:last-child {
+        border-bottom: none; /* No bottom border for the last list item */
+    }
+
+    .carousel-item {
+        height: 300px; /* Fixed height for carousel items */
+    }
+
+    .carousel-item img {
+        height: 100%; /* Full height of the carousel item */
+        object-fit: cover; /* Ensures images cover the entire area */
+        width: 100%; /* Full width of the carousel item */
+        border-radius: 10px; /* Rounded corners for carousel images */
+    }
+
+    .text-center {
+        text-align: center; /* Center alignment for text */
+    }
+
+    .text-muted {
+        color: #6c757d; /* Muted text color */
+    }
+
+    .btn-success {
+        background-color: darkslategrey; /* Dark Slate Gray background for buttons */
+        border-color: darkslategrey; /* Dark Slate Gray border for buttons */
+        transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for buttons */
+    }
+
+    .btn-success:hover {
+        background-color: #d2691e; /* Chocolate background on hover */
+        color: white; /* White text on hover */
+    }
+
+    @media (max-width: 768px) {
+        .card-img-top {
+            height: 100px; /* Further reduced height for images on smaller screens */
+        }
+
+        .card-img-bottom {
+            height: 100px; /* Further reduced height for bottom images on smaller screens */
+        }
+
+        .carousel-item {
+            height: 250px; /* Reduced height for carousel items on smaller screens */
+        }
+
+        .list-group-item {
+            padding: 10px; /* Reduced padding for list items on smaller screens */
+        }
+    }
+</style>
+
+{% block content %}
+<!-- About Us Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4 text-success section-title">About Us</h2>
+        <p class="text-center">At PropApp, we are revolutionizing property management for owners, tenants, and real estate professionals. Our user-friendly platform streamlines the property management process with efficiency and transparency.</p>
+
+        <h3 class="text-center mb-4 text-success section-title" style="border-bottom-left-radius:2px ; border-bottom-right-radius:2px;">Our Mission</h3>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="text-center ml-5">To simplify property management and create a seamless experience for everyone involved. We foster trust and transparency in real estate transactions, equipping our users with essential tools for success.</p>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="{% static 'images/mission.jpg' %}" alt="Our Mission" class="img-fluid card-img-top rounded-circle" style="height: 200px; width: 200px;">
+            </div>
+        </div>
+
+        <h3 class="text-center mb-4 text-success section-title">Our History</h3>
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center">
+                <img src="{% static 'images/history.jpg' %}" alt="Our History" class="img-fluid card-img-top" style="height: 200px; width: 200px;">
+            </div>
+            <div class="col-md-6">
+                <p>Founded in 2020, PropApp bridges the gap between property management and technology. Our founders, with extensive experience in real estate and software development, recognized the challenges faced by property owners and tenants. We are dedicated to creating innovative solutions that enhance the property management experience.</p>
+            </div>
+        </div>
+
+        <h3 class="text-center mb-4 text-success section-title">Achievements</h3>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="bi bi-check-circle me-2 text-success"></i>1,500+ Properties Managed</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle me-2 text-success"></i>500+ Happy Tenants</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle me-2 text-success"></i>Trusted by 50+ Real Estate Professionals</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle me-2 text-success"></i>Fastest Growing Property Management App in 2022</li>
+                </ul>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="{% static 'images/experience.jpg' %}" alt="Achievements" class="img-fluid rounded-circle" style="height: 200px; width: 200px;">
+            </div>
+        </div>
+
+        <h3 class="text-center mb-4 text-success section-title">Our Values</h3>
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center">
+                <img src="{% static 'images/vision.jpg' %}" alt="Our Values" class="img-fluid card-img-top" style="height: 200px; width: 200px;">
+            </div>
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="bi bi-check-circle me-2 text-success"></i>Integrity</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle me-2 text-success"></i>Innovation</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle me-2 text-success"></i>Customer Focus</li>
+                    <li class="list-group-item"><i class="bi bi-check-circle me-2 text-success"></i>Collaboration</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 class="text-center mb-4 text-success section-title">Join Us on Our Journey!</h3>
+        <p class="text-center">We’re always looking for fresh talent and innovative ideas. If you’re passionate about property management and technology, get in touch with us today!</p>
+        <div class="text-center">
+            <a href="{% url 'contact' %}" class="btn btn-success">Contact Us</a>
+        </div>
+    </div>
+</section>
+<!-- End About Us Section -->
+
+{% endblock %}

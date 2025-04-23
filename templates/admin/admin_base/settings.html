@@ -1,0 +1,21 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+{% block content %}
+    <div class="main-content flex-grow-1 p-4">
+
+            <div id="settings" class="mt-4" >
+                <h2>Settings</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="siteName">Site Name</label>
+                        <input type="text" class="form-control" id="siteName" placeholder="Enter site name">
+                        <small class="form-text text-muted">This will be displayed on the navbar.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="siteLogo">Site Logo</label>
+                        <input type="file" class="form-control-file" id="siteLogo">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+    </div>
+{% endblock %}

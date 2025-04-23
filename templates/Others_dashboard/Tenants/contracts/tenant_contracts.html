@@ -1,0 +1,305 @@
+{% extends 'Others_dashboard/Tenants/tenant_base.html' %}
+{% load static %}
+
+{% block title %}
+Lease Management
+{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Styling for the overall layout */
+    .stats-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 10px; /* Reduced margin */
+    }
+
+    .stat-card {
+        flex: 1;
+        margin: 0 5px; /* Small margin for spacing */
+        height: 60px; /* Reduced height for compactness */
+    }
+
+    .section-header {
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 10px;
+        margin-bottom: 10px; /* Reduced margin */
+    }
+
+    .card-title {
+        font-size: 1.2em; /* Adjust font size for better visibility */
+    }
+
+    .search-container {
+        margin-bottom: 10px; /* Reduced margin */
+    }
+
+    .card-body {
+        padding: 0; /* Reduced padding */
+    }
+
+    /* Button transitions */
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: scale(1.05); /* Slightly enlarge button */
+    }
+
+    /* Tab transitions */
+    .nav-link {
+        transition: background-color 0.3s ease;
+    }
+
+    .nav-link.active {
+        background-color: #f8f9fa; /* Light background for active tab */
+        color: #007bff; /* Blue color for active tab text */
+    }
+
+    .nav-link:hover {
+        background-color: #e9ecef; /* Change background on hover */
+    }
+
+    /* Lease Table Styling */
+    .lease-table {
+        margin-top: 20px;
+    }
+
+    .lease-table th {
+        font-size: 1rem;
+        color: #2f4f4f; /* Dark Slate Gray */
+    }
+
+    .lease-table td {
+        font-size: 0.9rem;
+        color: #6c757d; /* Muted text color */
+    }
+
+    .lease-table .status-text.text-success {
+        color: #28a745; /* Green color for success */
+    }
+
+    .lease-table .status-text.text-danger {
+        color: #dc3545; /* Red color for danger */
+    }
+
+    .lease-table .status-text.text-secondary {
+        color: #6c757d; /* Muted text color for secondary */
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-4">
+    <!-- Header section -->
+    <div class="row mb-4 section-header">
+        {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% elif message.tags == 'warning' %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% elif message.tags == 'info' %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% elif message.tags == 'success' %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        <div class="col-md-12">
+            <h4 class="text-primary">My Contracts</h4>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="search-input" class="form-control" placeholder="Search my leases..." onkeyup="filterLeases()">
+    </div>
+
+    <!-- Main card container for leases -->
+    <div class="card shadow-sm border-0 mt-2">
+        <!-- Card body -->
+        <div class="card-body">
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-tabs" id="leaseTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="true">
+                        <i class="bi bi-hourglass-split"></i> Pending Leases <span class="badge bg-secondary">{{ total_unaccepted_contracts }}</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="accepted-tab" data-bs-toggle="tab" data-bs-target="#accepted" type="button" role="tab" aria-controls="accepted" aria-selected="false">
+                        <i class="bi bi-check-circle"></i> Accepted Leases <span class="badge bg-success">{{ total_accepted_contracts }}</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="signed-tab" data-bs-toggle="tab" data-bs-target="#signed" type="button" role="tab" aria-controls="signed" aria-selected="false">
+                        <i class="bi bi-hand-thumbs-up-fill"></i> Signed Leases  <span class="badge bg-danger">{{ total_signed_contracts }}</span>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-2" id="leaseTabContent">
+                <!-- Pending Leases Tab -->
+                <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                    <table class="table table-hover lease-table" id="pending-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Property Name</th>
+                                <th>Owner Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Rent Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lease in unaccepted_contracts %}
+                                <tr class="lease-row pending">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ lease.property.name }}</td>
+                                    <td>{{ lease.property.owner.name }}</td>
+                                    <td>{{ lease.start_date }}</td>
+                                    <td>{{ lease.end_date }}</td>
+                                    <td>{{ lease.rent_amount }} Frw</td>
+                                    <td><span class="status-text text-secondary">Pending</span></td>
+                                    <td>
+
+                                        <a href="{% url 'tenant_view_contract' lease.id %}" class="btn btn-info btn-sm" title="View"><i class="bi bi-eye"></i> View</a>
+                                        <a href="{% url 'tenant_accept_contract' lease.id %}" class="btn btn-success btn-sm" title="Accept"><i class="bi bi-check"></i> Accept</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="8" class="text-center">No pending leases found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Accepted Leases Tab -->
+                <div class="tab-pane fade" id="accepted" role="tabpanel" aria-labelledby="accepted-tab">
+                    <table class="table table-hover lease-table" id="accepted-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Property Name</th>
+                                <th>Owner Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Rent Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lease in accepted_contracts %}
+                                <tr class="lease-row accepted">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ lease.property.name }}</td>
+                                    <td>{{ lease.property.owner.name }}</td>
+                                    <td>{{ lease.start_date }}</td>
+                                    <td>{{ lease.end_date }}</td>
+                                    <td>{{ lease.rent_amount }} Frw</td>
+                                    <td><span class="status-text text-success">Accepted</span></td>
+                                    <td>
+                                        <a href="{% url 'tenant_view_contract' lease.id %}" class="btn btn-info btn-sm" title="View"><i class="bi bi-eye"></i> View</a>
+                                        <a href="{% url 'tenant_sign_contract' lease.id %}" class="btn btn-primary btn-sm" title="Sign"><i class="bi bi-sign"></i> Sign</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="8" class="text-center">No accepted leases found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Signed Leases Tab -->
+                <div class="tab-pane fade" id="signed" role="tabpanel" aria-labelledby="signed-tab">
+                    <table class="table table-hover lease-table" id="signed-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Property Name</th>
+                                <th>Owner Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Rent Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lease in signed_contracts %}
+                                <tr class="lease-row signed">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ lease.property.name }}</td>
+                                    <td>{{ lease.property.owner.name }}</td>
+                                    <td>{{ lease.start_date }}</td>
+                                    <td>{{ lease.end_date }}</td>
+                                    <td>{{ lease.rent_amount }} Frw</td>
+                                    <td><span class="status-text text-danger">Signed</span></td>
+                                    <td>
+                                        <a href="{% url 'tenant_view_contract' lease.id %}" class="btn btn-info btn-sm" title="View"><i class="bi bi-eye"></i> View</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="8" class="text-center">No signed leases found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.js"></script>
+
+<script>
+    // Function to filter leases based on search input
+    function filterLeases() {
+        const input = document.getElementById('search-input').value.toLowerCase();
+        const table = document.querySelector('.lease-table');
+        const rows = table.querySelectorAll('.lease-row');
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            let found = false;
+            cells.forEach(cell => {
+                if (cell.textContent.toLowerCase().includes(input)) {
+                    found = true;
+                }
+            });
+            if (found) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+{% endblock %}

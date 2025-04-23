@@ -1,0 +1,212 @@
+{% extends 'Others_dashboard/owners/owner_base.html' %}
+{% load static %}
+
+{% block title %}
+Create New Contract
+{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Custom Styles for Contact Form */
+    #new-contract {
+        margin-top: 30px;
+        padding: 30px;
+        background-color: #f1f3f5;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #2f4f4f; /* Dark Slate Gray */
+    }
+
+    .form-control {
+        border-radius: 30px;
+        padding: 10px 20px;
+        margin-bottom: 15px;
+    }
+
+    .btn-success {
+        background-color: darkslategrey; /* Dark Slate Gray */
+        border-color: darkslategrey; /* Dark Slate Gray */
+        border-radius: 30px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #d2691e; /* Chocolate */
+        color: white;
+    }
+
+    .section-header {
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border: 1px solid #eaeaea;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.05); /* Slightly enlarge card on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #2f4f4f; /* Dark Slate Gray */
+    }
+
+    .form-control {
+        border-radius: 30px;
+        padding: 10px 20px;
+        margin-bottom: 15px;
+    }
+
+    .btn-action {
+        border-radius: 30px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-action:hover {
+        transform: scale(1.05); /* Slightly enlarge button */
+    }
+
+    .btn-success {
+        background-color: darkslategrey; /* Dark Slate Gray */
+        border-color: darkslategrey; /* Dark Slate Gray */
+    }
+
+    .btn-success:hover {
+        background-color: #d2691e; /* Chocolate */
+        color: white;
+    }
+
+    .btn-info {
+        background-color: #17a2b8; /* Cyan */
+        border-color: #17a2b8; /* Cyan */
+    }
+
+    .btn-info:hover {
+        background-color: #138496; /* Darker Cyan */
+        color: white;
+    }
+
+    .btn-danger {
+        background-color: #dc3545; /* Red */
+        border-color: #dc3545; /* Red */
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333; /* Darker Red */
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .form-control {
+            padding: 8px 15px;
+        }
+
+        .btn-action {
+            padding: 8px 15px;
+        }
+
+        .card {
+            border-radius: 8px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .search-container {
+            margin-bottom: 10px;
+        }
+
+        .stats-container {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            margin: 10px 0;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-4">
+    <!-- Header section -->
+    <div class="row mb-4 section-header">
+        <div class="col-md-12">
+            <h4 class="text-primary">Create New Contract</h4>
+        </div>
+    </div>
+
+    <!-- New Contract Form -->
+    <div id="new-contract" class="container">
+        <form method="POST" action="{% url 'new_contract' user.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="property"><i class="bi bi-house me-2"></i>Property</label>
+                <select class="form-control" id="property" name="property" required>
+                    <option value="">Select a Property</option>
+                    {% for property in properties %}
+                        <option value="{{ property.id }}">{{ property.name }} - {{ property.address }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tenant"><i class="bi bi-person me-2"></i>Tenant</label>
+                <select class="form-control" id="tenant" name="tenant" required>
+                    <option value="">Select a Tenant</option>
+                    {% for tenant in tenants %}
+                        <option value="{{ tenant.id }}">{{ tenant.name }} - {{ tenant.email }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="start_date"><i class="bi bi-calendar-date me-2"></i>Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date"><i class="bi bi-calendar-date me-2"></i>End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+            <div class="form-group">
+                <label for="rent_amount"><i class="bi bi-currency-dollar me-2"></i>Rent Amount (Frw)</label>
+                <input type="number" class="form-control" id="rent_amount" name="rent_amount" required>
+            </div>
+            <div class="form-group">
+                <label for="contract_details"><i class="bi bi-file-text me-2"></i>Contract Details</label>
+                <textarea class="form-control" id="contract_details" name="contract_details" rows="4" placeholder="Enter contract details" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success btn-action">
+                <i class="bi bi-file-earmark-plus me-2"></i>Create Contract
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap Icons CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.js"></script>
+
+{% endblock %}

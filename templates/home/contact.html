@@ -1,0 +1,136 @@
+{% extends 'home/base.html' %}
+
+{% load static %}
+
+{% block title %}Contact Us {% endblock %}
+
+{% block content %}
+<style>
+    .hero-section {
+        background-color: darkslategrey; /* Green background for contact section */
+        color: white;
+        margin-top: 76px;
+        border-top: 10px solid darkgray; /* White border for contact section */
+
+        padding: 60px 0;
+        text-align: center;
+    }
+    .section-title {
+        color: darkslategrey; /* Title color */
+    }
+    .contact-info {
+        margin-bottom: 30px;
+    }
+    .form-group
+    {
+        margin-bottom: 15px;
+
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 12px;
+        width: 100%;
+    }
+    button[type="submit"] {
+        background-color: darkslategrey;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button[type="submit"]:hover {
+        background-color: #2e7575;
+        color: white;
+
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div>
+        <h1>Contact Us</h1>
+        <p>If you have any questions or inquiries, feel free to reach out to us!</p>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<div class="container mt-5">
+    <h2 class="text-center section-title">Get in Touch</h2>
+    <p class="text-center">We're here to help! Fill out the form below, and we'll get back to you as soon as possible.</p>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="customer_message" method="POST" style="background-color: #f2f2f2; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                {% csrf_token %}
+                  <div class="form-group mt-3" style="color: green;">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <h3 class="section-title">Contact Us</h3>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group" >
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="6" placeholder="Your message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h3 class="section-title">Contact Information</h3>
+            <div class="contact-info mb-4">
+                <p><i class="bi bi-envelope"></i> Email: <a href="mailto:support@propapp.com">support@propapp.com</a></p>
+                <p><i class="bi bi-telephone"></i> Phone: <a href="tel:+1234567890">(123) 456-7890</a></p>
+                <p><i class="bi bi-geo-alt"></i> Address: 123 Main Street, City, Country</p>
+            </div>
+
+            <h3 class="section-title">Support Hours</h3>
+            <p>Our support team is here to assist you:</p>
+            <ul>
+                <li>Monday to Friday: 9 AM - 6 PM</li>
+                <li>Saturday: 10 AM - 2 PM</li>
+                <li>Sunday: Closed</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+                    <!-- Map Section -->
+
+<!-- FAQs Section -->
+    <section id="subscribe" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4 text-success">Subscribe to Our Newsletter</h2>
+            <p class="text-center text-muted">Stay up-to-date with our latest news and updates by subscribing to our newsletter.</p>
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Enter your email" aria-label="Recipient's email" aria-describedby="button-addon2" name="email">
+                            <button class="btn btn-success" type="submit" id="button-addon2">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</section>
+
+{% endblock %}

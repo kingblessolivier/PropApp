@@ -1,0 +1,164 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+
+{% block content %}
+
+<style>
+    /* Include the styles from the original template */
+    body {
+        color: #ffffff; /* White text for contrast */
+    }
+    .background-overlay {
+        background: rgba(255, 255, 255, 0.9); /* White with transparency */
+        padding: 20px; /* Space around the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    }
+    .form-control, .form-select {
+        border: 1px solid rgba(0, 123, 255, 0.5); /* Subtle blue border */
+        background: transparent; /* No background color */
+        color: #000; /* Black text for contrast */
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff; /* Darker blue border on focus */
+        box-shadow: none; /* Remove shadow on focus */
+    }
+    .card-header {
+        background: rgba(0, 123, 255, 0.8); /* Darker blue background */
+    }
+    .card-header h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .btn-primary {
+        background-color: #007bff; /* Professional blue */
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .btn-secondary {
+        background-color: #6c757d; /* Professional grey */
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Darker grey on hover */
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-4">
+    <div class="container mt-5">
+        <div class="background-overlay">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header text-white text-center rounded-top bg-primary">
+                    <h2 class="mb-0">Add Lease</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form id="addLeaseForm" method="POST" action="{% url 'add_lease' %}" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseTenant" class="form-label">
+                                    <i class="fas fa-user"></i> Tenant
+                                </label>
+                                <select class="form-select" id="leaseTenant" required name="tenant_id" data-bs-toggle="tooltip" title="Select the tenant for this lease">
+                                    <option value="" selected disabled class="text-muted">Select a tenant</option>
+                                    {% for tenant in tenants %}
+                                        <option value="{{ tenant.id }}">{{ tenant.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select a tenant.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseUnit" class="form-label">
+                                    <i class="fas fa-home"></i> Unit
+                                </label>
+                                <select class="form-select" id="leaseUnit" required name="unit_id" data-bs-toggle="tooltip" title="Select the unit for this lease">
+                                    <option value="" selected disabled class="text-muted">Select a unit</option>
+                                    {% for unit in units %}
+                                        <option value="{{ unit.id }}">{{ unit.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select a unit.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseOwner" class="form-label">
+                                    <i class="fas fa-user-tie"></i> Owner
+                                </label>
+                                <select class="form-select" id="leaseOwner" required name="owner_id" data-bs-toggle="tooltip" title="Select the owner for this lease">
+                                    <option value="" selected disabled class="text-muted">Select an owner</option>
+                                    {% for owner in owners %}
+                                        <option value="{{ owner.id }}">{{ owner.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select an owner.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseRent" class="form-label">
+                                    <i class="fas fa-dollar-sign"></i> Rent Amount
+                                </label>
+                                <input type="number" class="form-control" id="leaseRent" placeholder="e.g., 500" name="rent_amount" required data-bs-toggle="tooltip" title="Enter the rent amount for the lease">
+                                <div class="invalid-feedback">Please provide a rent amount.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseStartDate" class="form-label">
+                                    <i class="fas fa-calendar-alt"></i> Start Date
+                                </label>
+                                <input type="date" class="form-control" id="leaseStartDate" name="start_date" required data-bs-toggle="tooltip" title="Enter the lease start date">
+                                <div class="invalid-feedback">Please provide a start date.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseEndDate" class="form-label">
+                                    <i class="fas fa-calendar-alt"></i> End Date
+                                </label>
+                                <input type="date" class="form-control" id="leaseEndDate" name="end_date" required data-bs-toggle="tooltip" title="Enter the lease end date">
+                                <div class="invalid-feedback">Please provide an end date.</div>
+                            </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="contractSigned" name="contract_signed" value="true">
+                            <label for="contractSigned" class="form-check-label">Contract Signed</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary me-2" onclick="window.location.href='{% url 'admin_leases' %}'">
+                                <i class="fas fa-arrow-left"></i> Go Back
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<script>
+    (function () {
+        'use strict';
+
+        // Enable Bootstrap validation
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    })();
+</script>

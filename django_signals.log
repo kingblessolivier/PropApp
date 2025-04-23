@@ -1,0 +1,141 @@
+Watching for file changes with StatReloader
+"GET /admin/ HTTP/1.1" 200 24981
+"GET /admin/PropApp/customermessage/ HTTP/1.1" 200 32607
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/lease/ HTTP/1.1" 200 24908
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/property/ HTTP/1.1" 200 28896
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET / HTTP/1.1" 200 38995
+"GET /admin HTTP/1.1" 301 0
+"GET /admin/ HTTP/1.1" 200 24980
+"GET /admin_dashboad HTTP/1.1" 200 23519
+"GET /admin_dashboard/tenants HTTP/1.1" 200 22834
+"GET /admin_dashboard/owners HTTP/1.1" 200 33086
+"GET /admin_dashboard/properties HTTP/1.1" 200 31691
+"GET /admin_dashboard/users HTTP/1.1" 200 57214
+"GET /changelog/ HTTP/1.1" 200 26735
+"GET /admin_dashboard/owners HTTP/1.1" 200 33087
+"POST /admin_dashboard/delete_owner/7 HTTP/1.1" 302 0
+"GET /admin_dashboard/owners HTTP/1.1" 200 31070
+"GET /changelog/ HTTP/1.1" 200 26735
+C:\Users\USER\Documents\Year2\Year2_IT_Projects\Enhenced_systems\Property_management\PropApp\admin.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\USER\Documents\Year2\Year2_IT_Projects\Enhenced_systems\Property_management\PropApp\admin.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /admin HTTP/1.1" 301 0
+"GET /admin/ HTTP/1.1" 200 25733
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24077
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/changelog/add/ HTTP/1.1" 200 37089
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24076
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+C:\Users\USER\Documents\Year2\Year2_IT_Projects\Enhenced_systems\Property_management\PropApp\views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /admin_dashboad HTTP/1.1" 200 23521
+"GET /changelog/ HTTP/1.1" 200 26738
+"GET /admin_dashboard/properties HTTP/1.1" 200 31610
+"GET /changelog/ HTTP/1.1" 200 26736
+"GET /admin_dashboard/properties HTTP/1.1" 200 31609
+"GET /adding_property HTTP/1.1" 200 28088
+"POST /admin_dashboard/add_property HTTP/1.1" 302 0
+"GET /admin_dashboard/properties HTTP/1.1" 200 33834
+"GET /changelog/ HTTP/1.1" 200 26739
+C:\Users\USER\Documents\Year2\Year2_IT_Projects\Enhenced_systems\Property_management\PropApp\urls.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\USER\Documents\Year2\Year2_IT_Projects\Enhenced_systems\Property_management\PropApp\urls.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\USER\Documents\Year2\Year2_IT_Projects\Enhenced_systems\Property_management\PropApp\urls.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /admin_dashboard/properties HTTP/1.1" 200 33835
+"GET /changelog/ HTTP/1.1" 200 26738
+Watching for file changes with StatReloader
+"GET /changelog/ HTTP/1.1" 200 26738
+"GET /admin_dashboard/owners HTTP/1.1" 200 31070
+"GET /adding_owner HTTP/1.1" 200 26259
+"POST /admin_dashboard/add_owner HTTP/1.1" 302 0
+"GET /admin_dashboard/owners HTTP/1.1" 200 33083
+"GET /changelog/ HTTP/1.1" 200 26738
+"GET /changelog/ HTTP/1.1" 200 26737
+"GET /changelog/ HTTP/1.1" 200 26736
+"GET /admin HTTP/1.1" 301 0
+"GET /admin/ HTTP/1.1" 200 25812
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24076
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24076
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/changelog/add/ HTTP/1.1" 200 37219
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /changelog/ HTTP/1.1" 200 26738
+"GET /admin_dashboard/tenants HTTP/1.1" 200 22835
+"GET /admin_dashboard/owners HTTP/1.1" 200 33083
+"GET /adding_owner HTTP/1.1" 200 26063
+"GET /admin_dashboard/tenants HTTP/1.1" 200 22834
+"GET /admin_dashboard/properties HTTP/1.1" 200 33915
+"GET /admin_dashboard/users HTTP/1.1" 200 57214
+"POST /admin_dashboard/delete_user/11 HTTP/1.1" 302 0
+"GET /admin_dashboard/users HTTP/1.1" 200 52709
+"GET /admin HTTP/1.1" 301 0
+"GET /admin/ HTTP/1.1" 200 25600
+"GET /admin/PropApp/user/ HTTP/1.1" 200 30323
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24076
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+Watching for file changes with StatReloader
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24077
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/lease/ HTTP/1.1" 200 25350
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/owner/ HTTP/1.1" 200 28488
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/owner/6/change/ HTTP/1.1" 200 29766
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/owner/ HTTP/1.1" 200 28487
+C:\Users\USER\Documents\Year2\Year2_IT_Projects\Enhenced_systems\Property_management\PropApp\admin.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /admin/ HTTP/1.1" 200 26188
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24494
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/customermessage/ HTTP/1.1" 200 33462
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/customermessage/17/change/ HTTP/1.1" 200 28131
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/updates/ HTTP/1.1" 200 29972
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24492
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/customermessage/ HTTP/1.1" 200 33462
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/owner/ HTTP/1.1" 200 28903
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/owner/ HTTP/1.1" 200 28903
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/tenant/ HTTP/1.1" 200 26874
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/changelog/ HTTP/1.1" 200 24493
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/PropApp/user/ HTTP/1.1" 200 30739
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/auth/ HTTP/1.1" 200 18496
+"GET /admin/auth/group/ HTTP/1.1" 200 24794
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin_dashboad HTTP/1.1" 200 23519
+"GET /admin_dashboard/updates HTTP/1.1" 200 34007
+"GET /changelog/ HTTP/1.1" 200 26738
+"GET /changelog/ HTTP/1.1" 200 26738
+"GET /admin_dashboard/updates HTTP/1.1" 200 34007
+"GET /admin_dashboard/owners HTTP/1.1" 200 31070
+"GET /admin_dashboard/properties HTTP/1.1" 200 33835
+"GET /admin_dashboard/users HTTP/1.1" 200 52249
+"GET /admin_messages HTTP/1.1" 200 50505
+"GET /read-message/4 HTTP/1.1" 301 0
+"GET /read-message/4/ HTTP/1.1" 200 21414
+"GET /mail/4 HTTP/1.1" 301 0
+"GET /mail/4/ HTTP/1.1" 200 24091
+"GET / HTTP/1.1" 200 38995

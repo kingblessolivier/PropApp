@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added for responsive design -->
+    <title>PropApp | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        /* General Styles */
+        body {
+            background-color: #f8f9fa; /* Light background for a clean look */
+            font-family: arial, sans-serif; /* Set font family for better readability */
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background-color: darkslategrey; /* Dark Slate Gray */
+            color: white; /* White text for better visibility */
+            border-bottom: 1px solid #e3e6f0; /* Light border for better visibility */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Drop shadow for better visibility */
+            z-index: 1000; /* Set z-index to make sure navbar is on top */
+            padding: 0.5rem 1rem; /* Padding for better visibility */
+            margin-bottom: 1rem; /* Margin for better visibility */
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: antiquewhite; /* White text for better visibility */
+        }
+
+        .navbar-custom .navbar-toggler-icon {
+            background-color: white; /* White icon for better visibility */
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: #2f4f4f; /* Dark Slate Gray */
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 70px; /* Adjusted margin to account for fixed navbar */
+            border-top: 5px solid #d2691e; /* Chocolate */
+            border-radius: 10px;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 30px; /* Reduced margin */
+        }
+
+        /* Improved Above Hero Section */
+        .above-hero {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .above-hero h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #2f4f4f; /* Dark Slate Gray */
+        }
+
+        .above-hero p {
+            font-size: 1rem;
+            color: #6c757d; /* Muted text color */
+        }
+
+        /* Call-to-Action Section */
+        .cta-section {
+            background-color: #2f4f4f; /* Dark Slate Gray */
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 50px;
+            border-radius: 10px;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .cta-section .btn {
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cta-section .btn:hover {
+            background-color: #d2691e; /* Chocolate */
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(47, 79, 79, 0.97); /* Dark Slate Gray */
+            color: white; /* White text for footer */
+            padding: 20px 0;
+            border-top: 1px solid #e3e6f0; /* Light border for better visibility */
+        }
+
+        footer h5,
+        footer p,
+        footer a {
+            color: white; /* White text for footer */
+        }
+
+        footer a:hover {
+            text-decoration: underline; /* Underline on hover for links */
+        }
+
+        footer .social-icons a {
+            color: white; /* White text for social icons */
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        footer .social-icons a:hover {
+            color: #d2691e; /* Chocolate on hover for social icons */
+        }
+
+        footer .text-center {
+            margin-top: 10px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 576px) {
+            .navbar-custom .navbar-brand {
+                font-size: 1.5rem; /* Increase font size for better visibility */
+            }
+
+            .navbar-custom .navbar-toggler {
+                border: none; /* Remove border for better visibility */
+                color: white; /* White text for better visibility */
+            }
+
+            .hero-section {
+                margin-top: 60px; /* Adjusted margin for smaller screens */
+            }
+
+            .above-hero {
+                margin-top: 10px; /* Reduced margin for smaller screens */
+            }
+
+            .cta-section {
+                padding: 30px 10px; /* Reduced padding for smaller screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-custom .navbar-brand {
+                font-size: 1.5rem; /* Increase font size for better visibility */
+            }
+
+            .navbar-custom .navbar-toggler {
+                border: none; /* Remove border for better visibility */
+                color: white; /* White text for better visibility */
+            }
+
+            .hero-section {
+                margin-top: 60px; /* Adjusted margin for smaller screens */
+            }
+
+            .above-hero {
+                margin-top: 10px; /* Reduced margin for smaller screens */
+            }
+
+            .cta-section {
+                padding: 30px 10px; /* Reduced padding for smaller screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom shadow fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                <img src="{% static 'images/p.png' %}" alt="PropApp Logo" width="50" height="50" class="d-inline-block align-top me-2">
+                PropApp
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}"><i class="bi bi-house-door me-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}"><i class="bi bi-info-circle me-2"></i>About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}"><i class="bi bi-telephone me-2"></i>Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'updates' %}"><i class="bi bi-bell me-2"></i>Updates</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'property_list' %}"><i class="bi bi-building me-2"></i>Properties</a>
+                    </li>
+
+                    {% if user.is_authenticated and user.role == "Admin" %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_dashboard' %}"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a>
+                    </li>
+                    {% elif user.is_authenticated and user.role == 'Owner' %}
+                    {% if owner_user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'owner_dashboard' user.id %}"><i class="bi bi-speedometer2 me-2"></i>Owner Dashboard</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_owner_profile' user.id %}"><i class="bi bi-person-plus me-2"></i>Register as Owner</a>
+                    </li>
+                    {% endif %}
+                    {% elif user.is_authenticated and user.role == "Tenant" %}
+                {% if tenant_user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tenant_dashboard' user.id %}"><i class="bi bi-speedometer2 me-2"></i>Tenant Dashboard</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'new_tenant' user.id %}"><i class="bi bi-person-plus me-2"></i>Register as Tenant</a>
+                </li>
+                {% endif %}
+                    {% endif %}
+                </ul>
+
+                <div class="d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-2"></i>{{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu shadow" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#">View Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <a class="btn btn-light me-2" href="{% url 'user_login' %}" style="background-color: #2f4f4f; color: white;">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login</a>
+                    <a class="btn btn-light" href="{% url 'register' %}" style="background-color: #2f4f4f; color: white;">
+                        <i class="bi bi-person-plus me-2"></i>Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        {% block content %}
+        <!-- Main content goes here -->
+        {% endblock %}
+    </div>
+
+    <!-- Call-to-Action Section -->
+
+
+
+    <!-- Footer -->
+    <footer class="py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-center mb-3">
+                    <h5>Contact Us</h5>
+                    <p>For inquiries, please reach out to us:</p>
+                    <p>Email: <a href="mailto:support@propapp.com" class="text-white text-decoration-none">support@propapp.com</a></p>
+                    <p>Phone: <a href="tel:+1234567890" class="text-white text-decoration-none">(123) 456-7890</a></p>
+                    </div>
+                <div class="col-md-4 text-center mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#what-we-do" class="text-white text-decoration-none">What We Do</a></li>
+                        <li><a href="#statistics" class="text-white text-decoration-none">Our Impact</a></li>
+                        <li><a href="#testimonials" class="text-white text-decoration-none">Testimonials</a></li>
+                        <li><a href="{% url 'about' %}" class="text-white text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 text-center mb-3">
+                    <h5>Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="https://facebook.com" target="_blank" class="text-white mx-2 text-decoration-none" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="https://twitter.com" target="_blank" class="text-white mx-2 text-decoration-none" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="https://linkedin.com" target="_blank" class="text-white mx-2 text-decoration-none" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://instagram.com" target="_blank" class="text-white mx-2 text-decoration-none" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="https://github.com" target="_blank" class="text-white mx-2 text-decoration-none" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="mb-0">&copy; 2023 PropApp. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+</body>
+
+</html>

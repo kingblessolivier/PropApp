@@ -1,0 +1,160 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+
+{% block content %}
+
+<style>
+    /* Include styles from the Add Lease template */
+    body {
+        color: #ffffff;
+    }
+    .background-overlay {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+    .form-control, .form-select {
+        border: 1px solid rgba(0, 123, 255, 0.5);
+        background: transparent;
+        color: #000;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff;
+        box-shadow: none;
+    }
+    .card-header {
+        background: rgba(0, 123, 255, 0.8);
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-4">
+    <div class="container mt-5">
+        <div class="background-overlay">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header text-white text-center rounded-top bg-primary">
+                    <h2 class="mb-0">Edit Lease</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form id="editLeaseForm" method="POST" action="{% url 'edit_lease' lease.id %}" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseTenant" class="form-label">
+                                    <i class="fas fa-user"></i> Tenant
+                                </label>
+                                <select class="form-select" id="leaseTenant" required name="tenant_id" data-bs-toggle="tooltip" title="Select the tenant for this lease">
+                                    <option value="" disabled class="text-muted">Select a tenant</option>
+                                    {% for tenant in tenants %}
+                                        <option value="{{ tenant.id }}" {% if tenant.id == lease.tenant.id %}selected{% endif %}>
+                                            {{ tenant.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select a tenant.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseUnit" class="form-label">
+                                    <i class="fas fa-home"></i> Unit
+                                </label>
+                                <select class="form-select" id="leaseUnit" required name="unit_id" data-bs-toggle="tooltip" title="Select the unit for this lease">
+                                    <option value="" disabled class="text-muted">Select a unit</option>
+                                    {% for unit in units %}
+                                        <option value="{{ unit.id }}" {% if unit.id == lease.unit.id %}selected{% endif %}>
+                                            {{ unit.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select a unit.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseOwner" class="form-label">
+                                    <i class="fas fa-user-tie"></i> Owner
+                                </label>
+                                <select class="form-select" id="leaseOwner" required name="owner_id" data-bs-toggle="tooltip" title="Select the owner for this lease">
+                                    <option value="" disabled class="text-muted">Select an owner</option>
+                                    {% for owner in owners %}
+                                        <option value="{{ owner.id }}" {% if owner.id == lease.owner.id %}selected{% endif %}>
+                                            {{ owner.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select an owner.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseRent" class="form-label">
+                                    <i class="fas fa-dollar-sign"></i> Rent Amount
+                                </label>
+                                <input type="number" class="form-control" id="leaseRent" name="rent_amount" value="{{ lease.rent_amount }}" required data-bs-toggle="tooltip" title="Enter the rent amount for the lease">
+                                <div class="invalid-feedback">Please provide a rent amount.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseStartDate" class="form-label">
+                                    <i class="fas fa-calendar-alt"></i> Start Date
+                                </label>
+                                <input type="date" class="form-control" id="leaseStartDate" name="start_date" value="{{ lease.start_date }}" required data-bs-toggle="tooltip" title="Enter the lease start date">
+                                <div class="invalid-feedback">Please provide a start date.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="leaseEndDate" class="form-label">
+                                    <i class="fas fa-calendar-alt"></i> End Date
+                                </label>
+                                <input type="date" class="form-control" id="leaseEndDate" name="end_date" value="{{ lease.end_date }}" required data-bs-toggle="tooltip" title="Enter the lease end date">
+                                <div class="invalid-feedback">Please provide an end date.</div>
+                            </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="contractSigned" name="contract_signed" value="true" {% if lease.contract_signed %}checked{% endif %}>
+                            <label for="contractSigned" class="form-check-label">Contract Signed</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary me-2" onclick="window.location.href='{% url 'admin_leases' %}'">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<script>
+    (function () {
+        'use strict';
+
+        // Enable Bootstrap validation
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    })();
+</script>

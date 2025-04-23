@@ -1,0 +1,184 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZv8f6HhY9g1q3f5SVj2A4W4jzXwP1QGg7x9g5E3Y8D7Wb3G7s3x5U4H3t5qY" crossorigin="anonymous">
+
+<style>
+    body {
+        color: #ffffff; /* White text for contrast */
+    }
+    .background-overlay {
+        background: rgba(255, 255, 255, 0.9); /* White with transparency */
+        padding: 20px; /* Space around the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    }
+    .form-control, .form-select {
+        border: 1px solid rgba(0, 123, 255, 0.5); /* Subtle blue border */
+        background: transparent; /* No background color */
+        color: #000; /* Black text for contrast */
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff; /* Darker blue border on focus */
+        box-shadow: none; /* Remove shadow on focus */
+    }
+    .card-header {
+        background: rgba(0, 123, 255, 0.8); /* Darker blue background */
+    }
+    .card-header h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .btn-primary {
+        background-color: #007bff; /* Professional blue */
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .btn-secondary {
+        background-color: #6c757d; /* Professional grey */
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Darker grey on hover */
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-4">
+    <div class="container mt-5">
+        <div class="background-overlay">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header text-white text-center rounded-top bg-primary">
+                    <h2 class="mb-0"><i class="fas fa-edit"></i> Edit Property</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form id="editPropertyForm" method="POST" action="/edit_property/{{ property.id }}" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="propertyId" class="form-label">
+                                <i class="fas fa-id-badge"></i> Property ID
+                            </label>
+                            <input type="text" class="form-control" id="propertyId" name="property_id" readonly value="{{ property.id }}">
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="propertyName" class="form-label">
+                                    <i class="fas fa-home"></i> Property Name
+                                </label>
+                                <input type="text" class="form-control" id="propertyName" placeholder="e.g., MIC" name="name" required data-bs-toggle="tooltip" title="Enter the name of the property" value="{{ property.name }}">
+                                <div class="invalid-feedback">Please provide a property name.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="propertyAddress" class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Property Address
+                                </label>
+                                <input type="text" class="form-control" id="propertyAddress" placeholder="e.g., Kigali, Rwanda" name="address" required data-bs-toggle="tooltip" title="Enter the full address" value="{{ property.address }}">
+                                <div class="invalid-feedback">Please provide a property address.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="propertyType" class="form-label">
+                                    <i class="fas fa-building"></i> Property Type
+                                </label>
+                                <select class="form-select" id="propertyType" name="type" required data-bs-toggle="tooltip" title="Select the type of property">
+                                    <option value="" disabled {% if not property.type %}selected{% endif %}></option>
+                                    <option value="Apartment" {% if property.type == "Apartment" %}selected{% endif %}>Apartment</option>
+                                    <option value="House" {% if property.type == "House" %}selected{% endif %}>House</option>
+                                    <option value="Commercial" {% if property.type == "Commercial" %}selected{% endif %}>Commercial</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a property type.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="propertyPrice" class="form-label">
+                                    <i class="fas fa-dollar-sign"></i> Property Price
+                                </label>
+                                <input type="number" class="form-control" id="propertyPrice" placeholder="000.00" name="price" required data-bs-toggle="tooltip" title="Enter the price of the property" value="{{ property.price }}">
+                                <div class="invalid-feedback">Please provide a property price.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="propertyDescription" class="form-label">
+                                <i class="fas fa-pencil-alt"></i> Property Description
+                            </label>
+                            <textarea class="form-control" id="propertyDescription" rows="3" name="description" required data-bs-toggle="tooltip" title="Provide a brief description of the property">{{ property.description }}</textarea>
+                            <div class="invalid-feedback">Please provide a property description.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="propertyImage" class="form-label">
+                                <i class="fas fa-image"></i> Property Image
+                            </label>
+                            <input type="file" class="form-control" id="propertyImage" name="image" data-bs-toggle="tooltip" title="Upload an image of the property">
+                            <div class="invalid-feedback">Please provide a property image.</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="propertyOwner" class="form-label">
+                                    <i class="fas fa-user"></i> Property Owner
+                                </label>
+                                <select class="form-select" id="propertyOwner" name="owner_id" required data-bs-toggle="tooltip" title="Select the owner of the property">
+                                    <option value="" disabled {% if not property.owner %}selected{% endif %}></option>
+                                    {% for owner in owner_list %}
+                                    <option value="{{ owner.id }}" {% if owner.id == property.owner.id %}selected{% endif %}>{{ owner.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select a property owner.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="propertyUnits" class="form-label">
+                                    <i class="fas fa-th-large"></i> Number of Units
+                                </label>
+                                <input type="number" class="form-control" id="propertyUnits" placeholder="e.g., 100" name="number_of_units" required data-bs-toggle="tooltip" title="Enter the number of units available" value="{{ property.number_of_units }}">
+                                <div class="invalid-feedback">Please provide the number of units.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="propertyStatus" class="form-label">
+                                <i class="fas fa-flag"></i> Property Status
+                            </label>
+                            <select class="form-select" id="propertyStatus" name="status" required data-bs-toggle="tooltip" title="Select the current status of the property">
+                                <option value="" disabled {% if not property.status %}selected{% endif %}></option>
+                                <option value="Available" {% if property.status == "Available" %}selected{% endif %}>Available</option>
+                                <option value="Rented" {% if property.status == "Rented" %}selected{% endif %}>Rented</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the property status.</div>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary me-2" onclick="window.location.href='{% url 'admin_properties' %}'">
+                                <i class="fas fa-arrow-left"></i> Go Back
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+    })();
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(t => new bootstrap.Tooltip(t));
+</script>
+
+{% endblock %}

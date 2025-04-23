@@ -1,0 +1,128 @@
+### Getting all properties
+GET http://localhost:8000/api/properties
+### Posting a new property
+POST http://localhost:8000/api/properties
+Content-Type: application/json
+
+{
+    "id": 3,
+    "name": "Kigali view",
+    "address": "Kigali, Rwanda",
+    "types": "Commercial",
+    "description": "A beautiful view of the city",
+    "number_of_units": 2
+  }
+
+### Getting a specific property
+GET http://localhost:8000/api/properties/3
+### Updating a specific property
+PUT http://localhost:8000/api/properties/3
+content-type: application/json
+
+{
+    "id": 3,
+    "name": "Kigali view",
+    "address": "Kigali, Rwanda",
+    "types": "Commercial",
+    "description": "A beautiful view of the city",
+    "number_of_units": 5
+  }
+
+### Deleting a specific property
+DELETE http://localhost:8000/api/properties/4
+
+### Getting all tenants
+GET http://localhost:8000/api/tenants
+### Posting a new tenant
+POST http://localhost:8000/api/tenants
+Content-Type: application/json
+
+ {
+    "id": 1,
+    "name": "Nsengimana Olivier",
+    "email": "mugisha@gmail.com",
+    "phone_number": "0786856571"
+  }
+
+### Getting a specific tenant
+GET http://localhost:8000/api/tenants/1
+### Updating a specific tenant
+PUT http://localhost:8000/api/tenants/2
+content-type: application/json
+
+{
+  "id": 2,
+  "name": "MUGISHA Emmanuel",
+  "email": "mugisha@gmail.com",
+  "phone_number": "0786856571"
+}
+
+### Deleting a specific tenant
+DELETE http://localhost:8000/api/tenants/2
+
+### Getting all units
+GET http://localhost:8000/api/units
+### Posting a new unit
+POST http://localhost:8000/api/units
+Content-Type: application/json
+
+
+  {
+    "property": 5,
+    "unit_number": 2,
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "rent": 60000,
+    "is_available": true
+  }
+
+### Getting a specific unit
+GET http://localhost:8000/api/units/2
+### Updating a specific unit
+PUT http://localhost:8000/api/units/2
+content-type: application/json
+
+ {
+    "property": 5,
+    "unit_number": 2,
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "rent": 60000,
+    "is_available": true
+  }
+
+### Deleting a specific unit
+DELETE http://localhost:8000/api/units/2
+
+### Getting all Leases
+GET http://localhost:8000/api/leases
+### Posting a new Lease
+POST http://localhost:8000/api/leases
+content-type: application/json
+
+ {
+    "id": 4,
+    "unit": 3,
+    "tenant": 1,
+    "start_date": "2024-05-23",
+    "end_date": "2024-11-30",
+    "rent_amount": 40000
+  }
+
+### Getting a specific Lease
+GET http://localhost:8000/api/leases/4
+### Updating a specific Lease
+PUT http://localhost:8000/api/leases/4
+content-type: application/json
+
+ {
+    "id": 4,
+    "unit": 3,
+    "tenant": 1,
+    "start_date": "2024-05-23",
+    "end_date": "2024-11-30",
+    "rent_amount": 50000
+  }
+
+### Deleting a specific Lease
+DELETE http://localhost:8000/api/leases/4

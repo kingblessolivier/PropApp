@@ -1,0 +1,95 @@
+{% extends 'others_dashboard/owners/owner_base.html' %}
+
+{% block content %}
+<div class="main-content flex-grow-1 p-4">
+    <div class="container ">
+        <div class="card shadow-lg border-0 rounded-lg">
+            <div class="card-header text-white text-center rounded-top bg-success">
+                <h2 class="mb-0">Profile Details</h2>
+            </div>
+            <div class="card-body p-4">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <strong class="heading-text">
+                            <i class="fas fa-user"></i> Owner Name:
+                        </strong>
+                        <p class="border-bottom pb-2">{{ owner.name }}</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <strong class="heading-text">
+                            <i class="fas fa-envelope"></i> Email:
+                        </strong>
+                        <p class="border-bottom pb-2">{{ owner.email }}</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <strong class="heading-text">
+                            <i class="fas fa-phone"></i> Phone Number:
+                        </strong>
+                        <p class="border-bottom pb-2">{{ owner.phone_number }}</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <strong class="heading-text">
+                            <i class="fas fa-map-marker-alt"></i> Address:
+                        </strong>
+                        <p class="border-bottom pb-2">{{ owner.address }}</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <strong class="heading-text">
+                            <i class="fas fa-user-tag"></i> Username:
+                        </strong>
+                        <p class="border-bottom pb-2">{{ user.username }}</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <strong class="heading-text">
+                            <i class="fas fa-image"></i> Profile Image:
+                        </strong>
+                        <div class="border rounded p-2 mb-3" style="text-align: center;">
+                            {% if owner.image %}
+                                <img src="{{ owner.image.url }}" alt="Profile Image" class="img-fluid rounded-circle shadow" style="max-width: 150px;">
+                            {% else %}
+                                <span>No image uploaded</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'edit_owner_profile' owner.id %}" class="btn btn-success shadow">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: 1px solid #dee2e6; /* Subtle border around the card */
+    }
+
+    .card-header {
+        border-bottom: 2px solid rgba(0, 123, 255, 0.8); /* Stronger border at the bottom */
+    }
+
+    p {
+        color: #343a40; /* Dark text for better contrast */
+    }
+
+    .border-bottom {
+        border-bottom: 1px solid #ced4da; /* Subtle bottom border for separation */
+    }
+
+    .rounded {
+        border-radius: 0.25rem; /* Rounded corners */
+    }
+
+    .heading-text {
+        color: #28a745; /* Green color for headings */
+        font-weight: bold; /* Ensure text is bold */
+    }
+
+    .shadow {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    }
+</style>
+{% endblock %}

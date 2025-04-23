@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+#sidebar {
+    padding-top: 20px;
+}
+
+#sidebar .nav-link {
+    color: #333;
+}
+
+#sidebar .nav-link.active {
+    color: #007bff;
+}
+
+.main-content {
+    padding: 20px;
+}

@@ -1,0 +1,217 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+
+{% block content %}
+
+<div class="main-content flex-grow-1 p-4">
+    <!-- Dashboard Section -->
+    <div id="dashboard">
+        <h1>Dashboard</h1>
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-building"></i> Properties</h5>
+                        <p class="card-text" id="propertyCount">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-people"></i> Tenants</h5>
+                        <p class="card-text" id="tenantCount">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-warning">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-chat-dots"></i> Messages</h5>
+                        <p class="card-text" id="messageCount">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-info">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-person"></i> Owners</h5>
+                        <p class="card-text" id="ownerCount">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Properties and Tenants Overview</h5>
+                <canvas id="barChart" width="100" height="60"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h5>Message Distribution</h5>
+                <canvas id="pieChart" width="50" height="50" ></canvas>
+            </div>
+        </div>
+
+        <!-- Line Chart Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <h5>User Registrations Over Time</h5>
+                <canvas id="lineChart" width="100" height="50"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/9.2.0/countUp.min.js"></script>
+
+<script>
+
+
+    // Bar Chart for Properties and Tenants
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['Properties', 'Tenants', 'Owners'],
+            datasets: [{
+                label: 'Total Count',
+                data: [{{ property_total|default:"0" }}, {{ tenant_total|default:"0" }}, {{ owner_total|default:"0" }}],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(255, 206, 86, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Pie Chart for Message Distribution
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Read Messages', 'Unread Messages', 'Read Enquiries', 'Unread Enquiries', 'Archived Enquiries'],
+            datasets: [{
+                label: 'Message Status',
+                data: [
+                    {{ read_messages.count|default:"0" }},
+                    {{ unread_messages.count|default:"0" }},
+                    {{ read_enquiries|default:"0" }},
+                    {{ unread_enquiries|default:"0" }},
+                    {{ archived_enquiries|default:"0" }}
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)', // Red
+                    'rgba(255, 159, 64, 0.6)', // Orange
+                    'rgba(75, 192, 192, 0.6)', // Green
+                    'rgba(54, 162, 235, 0.6)', // Blue
+                    'rgba(153, 102, 255, 0.6)' // Purple
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Message Distribution'
+                }
+            }
+        }
+    });
+
+    // Line Chart for User Registrations
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: {{ daily_user_registration_dates|safe }}, // Dates (e.g., ['2024-12-01', '2024-12-02'])
+            datasets: [{
+                label: 'Daily Registrations',
+                data: {{ daily_user_registration_counts|safe }}, // Counts (e.g., [10, 15, 8])
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Daily User Registrations'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Registrations'
+                    }
+                }
+            }
+        }
+    });
+   function countUp(elementId, endValue) {
+      let startValue = 0;
+      const stepTime = 50; // Time between increments
+      const step = Math.ceil(endValue / 50); // How much to increment each time
+
+      const interval = setInterval(() => {
+        startValue += step;
+        if (startValue >= endValue) {
+          startValue = endValue;
+          clearInterval(interval);
+        }
+        document.getElementById(elementId).textContent = startValue;
+      }, stepTime);
+}
+   countUp('propertyCount', {{ property_total|default:"0" }});
+    countUp('tenantCount', {{ tenant_total|default:"0" }});
+    countUp('messageCount', {{ message_total|default:"0" }});
+    countUp('ownerCount', {{ owner_total|default:"0" }});
+</script>
+
+{% endblock %}

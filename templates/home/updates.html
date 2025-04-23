@@ -1,0 +1,108 @@
+{% extends 'home/base.html' %}
+
+{% load static %}
+
+{% block title %}Updates{% endblock %}
+
+{% block content %}
+<style>
+    /* Hero Section Styling */
+    .hero-section {
+        background-color: #2f4f4f; /* Dark Slate Gray */
+        color: white;
+        padding: 60px 20px;
+        margin-top: 80px;
+        border-top: 5px solid #d2691e; /* Chocolate */
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Section Title */
+    .section-title {
+        font-size: 2rem;
+        color: #2f4f4f;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+    }
+
+    /* Updates List */
+    .updates-list {
+        margin-top: 30px;
+    }
+
+    /* Individual Update Item */
+    .update-item {
+        border: 1px solid #eaeaea; /* Light gray border */
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+        background-color: #f8f9fa; /* Soft gray background */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .update-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Update Title */
+    .update-item h4 {
+        font-size: 1.5rem;
+        color: #2f4f4f;
+        margin-bottom: 10px;
+    }
+
+    /* Update Date */
+    .update-item .text-muted {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* Pagination */
+    .pagination .page-link {
+        color: #2f4f4f;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #d2691e; /* Chocolate */
+        color: white;
+    }
+
+    .pagination .active .page-link {
+        background-color: #2f4f4f; /* Dark Slate Gray */
+        border-color: #2f4f4f;
+        color: white;
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div>
+        <h1>Stay Updated</h1>
+        <p>Your one-stop destination for the latest news and announcements.</p>
+    </div>
+</section>
+
+<!-- Updates Section -->
+<div class="container mt-5">
+    <h2 class="text-center section-title">Latest Updates</h2>
+
+    <div class="updates-list">
+        {% for update in updates %}
+
+        <!-- Update Item -->
+        <div class="update-item">
+            <h4>{{ update.title }}</h4>
+            <span class="text-muted">Date: From {{ update.created_at }} to {{ update.end_date }}</span>
+            <p>{{ update.description }}</p>
+
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

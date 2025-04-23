@@ -1,0 +1,131 @@
+{% extends 'Others_dashboard/Tenants/tenant_base.html' %}
+
+{% block title %}Tenant Dashboard | PropApp{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Welcome to Your Tenant Dashboard</h2>
+
+    <!-- Properties Card -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Properties</h5>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Property Name</th>
+                        <th>Address</th>
+                        <th>Rent</th>
+                        <th>Units</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for property in properties %}
+                    <tr>
+                        <td>{{ property.name }}</td>
+                        <td>{{ property.address }}</td>
+                        <td>${{ property.rent }}</td>
+                        <td>{{ property.number_of_units }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Payment Card -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Payment Status</h5>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Amount Due</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                    <tr>
+                        <td>{{ payment.date_paid|date:"F Y" }}</td>
+                        <td>${{ payment.amount }}</td>
+                        <td>
+                            {% if payment.is_paid %}
+                            <span class="badge bg-success">Paid</span>
+                            {% else %}
+                            <span class="badge bg-danger">Not Paid</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Maintenance Requests Card -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Maintenance Requests</h5>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Request Date</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in maintenance_requests %}
+                    <tr>
+                        <td>{{ request.request_date|date:"F j, Y, g:i a" }}</td>
+                        <td>{{ request.description }}</td>
+                        <td>
+                            {% if request.status == 'open' %}
+                            <span class="badge bg-warning">Open</span>
+                            {% elif request.status == 'in_progress' %}
+                            <span class="badge bg-info">In Progress</span>
+                            {% elif request.status == 'completed' %}
+                            <span class="badge bg-success">Completed</span>
+                            {% else %}
+                            <span class="badge bg-secondary">{{ request.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="#" class="btn btn-primary">Submit New Request</a>
+        </div>
+    </div>
+
+    <!-- Messages Card -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Messages</h5>
+        </div>
+        <div class="card-body">
+            {% if messages %}
+            <ul class="list-group">
+                {% for message in messages %}
+                <li class="list-group-item">
+                    <strong>{{ message.sender.username }}</strong>: {{ message.content }}
+                    <br>
+                    <small>{{ message.sent_date|date:"F j, Y, g:i a" }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No messages available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

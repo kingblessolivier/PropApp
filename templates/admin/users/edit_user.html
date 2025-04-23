@@ -1,0 +1,193 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+
+{% block content %}
+
+<style>
+    body {
+        color: #ffffff; /* White text for contrast */
+    }
+    .background-overlay {
+        background: rgba(255, 255, 255, 0.9); /* White with transparency */
+        padding: 20px; /* Space around the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    }
+    .form-control, .form-select {
+        border: 1px solid rgba(0, 123, 255, 0.5); /* Subtle blue border */
+        background: transparent; /* No background color */
+        color: #000; /* Black text for contrast */
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff; /* Darker blue border on focus */
+        box-shadow: none; /* Remove shadow on focus */
+    }
+    .card-header {
+        background: rgba(0, 123, 255, 0.8); /* Darker blue background */
+    }
+    .card-header h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .btn-primary {
+        background-color: #007bff; /* Professional blue */
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .btn-secondary {
+        background-color: #6c757d; /* Professional grey */
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Darker grey on hover */
+    }
+</style>
+
+<div class="main-content flex-grow-1 p-4">
+    <div class="container mt-5">
+        <div class="background-overlay">
+          {% if messages %}
+                        {% for message in messages %}
+                           {% if message.tags == 'error' %}
+                               <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                   {{ message }}
+                                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                               </div>
+                           {% elif message.tags == 'warning' %}
+                               <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                   {{ message }}
+                                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                               </div>
+                           {% elif message.tags == 'info' %}
+                               <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                   {{ message }}
+                                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                               </div>
+                           {% elif message.tags == 'success' %}
+                               <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                   {{ message }}
+                                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                               </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header text-white text-center rounded-top bg-primary">
+                    <h2 class="mb-0">Edit User</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form id="editUserForm" method="POST" action="{% url 'edit_user' user.id %}" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-user"></i> Username
+                                </label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required data-bs-toggle="tooltip" title="Enter the username">
+                                <div class="invalid-feedback">Please provide a username.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required data-bs-toggle="tooltip" title="Enter the email address">
+                                <div class="invalid-feedback">Please provide a valid email address.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">
+                                    <i class="fas fa-lock"></i> Password
+                                </label>
+                                <input type="password" class="form-control" id="password" name="password" data-bs-toggle="tooltip" title="Enter the password">
+                                <div class="invalid-feedback">Please provide a password.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="confirmPassword" class="form-label">
+                                    <i class="fas fa-lock"></i> Confirm Password
+                                </label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirm_password" data-bs-toggle="tooltip" title="Confirm the password">
+                                <div class="invalid-feedback">Passwords do not match.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="role" class="form-label">
+                                    <i class="fas fa-user-tag"></i> Role
+                                </label>
+                                <select class="form-select" id="role" name="role" required data-bs-toggle="tooltip" title="Select the user role">
+                                    <option selected disabled></option>
+                                    <option value="Admin" {% if user.role == 'Admin' %}selected{% endif %}>Admin</option>
+                                    <option value="Owner" {% if user.role == 'Owner' %}selected{% endif %}>Owner</option>
+                                    <option value="Tenant" {% if user.role == 'Tenant' %}selected{% endif %}>Tenant</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a role.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="joinDate" class="form-label">
+                                    <i class="fas fa-calendar-alt"></i> Join Date
+                                </label>
+                                <input type="date" class="form-control" id="joinDate" name="join_date" value="{{ user.join_date|date:'Y-m-d' }}" required data-bs-toggle="tooltip" title="Select the join date">
+                                <div class="invalid-feedback">Please provide a join date.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="isActive" name="is_active" {% if user.is_active %}checked{% endif %}>
+                                    <label class="form-check-label" for="isActive">
+                                        <i class="fas fa-toggle-on"></i> Is Active
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="isStaff" name="is_staff" {% if user.is_staff %}checked{% endif %}>
+                                    <label class="form-check-label" for="isStaff">
+                                        <i class="fas fa-user-shield"></i> Is Staff
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary me-2" onclick="window.location.href='{% url 'admin_users' %}'">
+                                <i class="fas fa-arrow-left"></i> Go Back
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<script>
+    (function () {
+        'use strict';
+
+        // Enable Bootstrap validation
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    })();
+</script>

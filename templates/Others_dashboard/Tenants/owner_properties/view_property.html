@@ -1,0 +1,240 @@
+{% extends 'Others_dashboard/Tenants/tenant_base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .main-content {
+            margin-left: 110px;
+        }
+        .background-overlay {
+            background: rgba(255, 255, 255, 0.9); /* White with transparency */
+            padding: 20px; /* Space around the card */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+        }
+        .form-control, .form-select {
+            border: 1px solid rgba(0, 123, 255, 0.5); /* Subtle blue border */
+            background: transparent; /* No background color */
+            color: #000; /* Black text for contrast */
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff; /* Darker blue border on focus */
+            box-shadow: none; /* Remove shadow on focus */
+        }
+        .card-header {
+            background: rgba(0, 123, 255, 0.8); /* Darker blue background */
+        }
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: #007bff; /* Professional blue */
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .btn-secondary {
+            background-color: #6c757d; /* Professional grey */
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Darker grey on hover */
+        }
+        .unit-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .unit-container h5 {
+            margin-bottom: 15px;
+        }
+        .lease-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .lease-container h5 {
+            margin-bottom: 15px;
+        }
+    </style>
+
+    <div class="main-content">
+        <div class="row mb-4 section-header">
+            <div class="col-md-12">
+                <h4 class="text-primary"><i class="fas fa-eye"></i> View Property Details</h4>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="background-overlay">
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-header text-white text-center rounded-top bg-primary">
+                        <h2 class="mb-0">{{ property_instance.name }}</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <strong class="heading-text">
+                                    <i class="fas fa-map-marker-alt"></i> Address:
+                                </strong>
+                                <p class="border-bottom pb-2">{{ property_instance.address }}</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong class="heading-text">
+                                    <i class="fas fa-dollar-sign"></i> Price:
+                                </strong>
+                                <p class="border-bottom pb-2">{{ property_instance.price }} Frw</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong class="heading-text">
+                                    <i class="fas fa-building"></i> Property Type:
+                                </strong>
+                                <p class="border-bottom pb-2">{{ property_instance.types }}</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong class="heading-text">
+                                    <i class="fas fa-align-left"></i> Description:
+                                </strong>
+                                <p class="border-bottom pb-2">{{ property_instance.description }}</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong class="heading-text">
+                                    <i class="fas fa-user"></i> Owner:
+                                </strong>
+                                <p class="border-bottom pb-2">{{ property_instance.owner.name }}</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong class="heading-text">
+                                    <i class="fas fa-phone"></i> Owner Contact:
+                                </strong>
+                                <p class="border-bottom pb-2">{{ property_instance.owner.contact }}</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong class="heading-text">
+                                    <i class="fas fa-th-large"></i> Number of Units:
+                                </strong>
+                                <p class="border-bottom pb-2">{{ property_instance.number_of_units }}</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong class="heading-text">
+                                    <i class="fas fa-image"></i> Property Image:
+                                </strong>
+                                <div class="border p-2 mb-3" style="text-align: center;">
+                                    {% if property_instance.image %}
+                                        <img src="{{ property_instance.image.url }}" alt="Property Image" class="img-fluid shadow" style="max-width: 150px;">
+                                    {% else %}
+                                        <span>No image uploaded</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Units Section -->
+                        <div class="unit-container">
+                            <h5>Units</h5>
+                            {% for unit in units %}
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong class="heading-text">
+                                        <i class="fas fa-hashtag"></i> Unit Number:
+                                    </strong>
+                                    <p class="border-bottom pb-2">{{ unit.unit_number }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong class="heading-text">
+                                        <i class="fas fa-bed"></i> Bedrooms:
+                                    </strong>
+                                    <p class="border-bottom pb-2">{{ unit.bedrooms }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong class="heading-text">
+                                        <i class="fas fa-bath"></i> Bathrooms:
+                                    </strong>
+                                    <p class="border-bottom pb-2">{{ unit.bathrooms }}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong class="heading-text">
+                                        <i class="fas fa-dollar-sign"></i> Rent:
+                                    </strong>
+                                    <p class="border-bottom pb-2">{{ unit.rent }} Frw</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong class="heading-text">
+                                        <i class="fas fa-check-circle"></i> Is Available:
+                                    </strong>
+                                    <p class="border-bottom pb-2">{{ unit.is_available|yesno:"Yes,No" }}</p>
+                                </div>
+                            </div>
+                            <hr class="section-divider" style="border: 0; border-top: 1px solid #dee2e6;">
+                            {% endfor %}
+                        </div>
+
+                        <!-- Leases Section -->
+                        <div class="lease-container">
+                            <h5>Leases</h5>
+                            <table class="table table-hover lease-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Unit Number</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Rent Amount</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for lease in leases %}
+                                        <tr class="lease-row">
+                                            <td>{{ lease.id }}</td>
+                                            <td>{{ lease.property.units.first.unit_number }}</td>
+                                            <td>{{ lease.start_date }}</td>
+                                            <td>{{ lease.end_date }}</td>
+                                            <td>{{ lease.rent_amount }} Frw</td>
+                                            <td>
+                                                {% if lease.contract_signed %}
+                                                    <span class="status-text text-danger">Signed</span>
+                                                {% elif lease.contract_accepted %}
+                                                    <span class="status-text text-success">Accepted</span>
+                                                {% else %}
+                                                    <span class="status-text text-secondary">Pending</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if not lease.contract_accepted and not lease.contract_signed %}
+                                                    <a href="{% url 'tenant_accept_contract' lease.id %}" class="btn btn-success btn-sm" title="Accept"><i class="fas fa-check"></i> Accept</a>
+                                                {% elif lease.contract_accepted and not lease.contract_signed %}
+                                                    <a href="{% url 'tenant_sign_contract' lease.id %}" class="btn btn-primary btn-sm" title="Sign"><i class="fas fa-sign"></i> Sign</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="7" class="text-center">No leases found for this property.</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="text-center mt-4">
+                            <a href="{% url 'tenant_properties' user.id %}" class="btn btn-secondary me-2">
+                                <i class="fas fa-arrow-left"></i> Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

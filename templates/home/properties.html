@@ -1,0 +1,249 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}
+Properties
+{% endblock %}
+
+{% block content %}
+<!-- Font Awesome CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<style>
+    /* Hero Search Section */
+    .search-section {
+        padding: 60px 20px;
+        margin-top: 80px;
+        background-color: #2f4f4f; /* Dark Slate Gray */
+        color: white;
+        text-align: center;
+        border-top: 5px solid #d2691e; /* Chocolate */
+        border-radius: 10px;
+    }
+
+    .search-section form {
+        max-width: 500px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-section input {
+        border-radius: 30px 0 0 30px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .search-section button {
+        border-radius: 0 30px 30px 0;
+        background-color: forestgreen;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-section button:hover {
+        background-color: #d2691e; /* Chocolate */
+    }
+
+    /* Search Results Count */
+    .search-results-count {
+        background-color: #f1f3f5; /* Light Gray Background */
+        border: 1px solid #eaeaea; /* Light Gray Border */
+        border-radius: 10px;
+        margin-top: 20px;
+        padding: 10px 20px;
+        text-align: center;
+    }
+
+    /* Properties Section */
+    .property-card {
+        border: 1px solid #eaeaea;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: white;
+    }
+
+    .property-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .property-card img {
+        max-height: 200px;
+        object-fit: cover;
+        width: 100%;
+        border-radius: 10px 10px 0 0; /* Rounded Top Corners */
+    }
+
+    .property-card h5 {
+        color: #2f4f4f; /* Dark Slate Gray */
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #e9ecef; /* Light Gray Background */
+        border-bottom: 1px solid #dee2e6; /* Light Gray Border */
+    }
+
+    .property-card .details-item {
+        font-size: 0.9rem;
+        color: #6c757d; /* Muted text color */
+        margin-bottom: 5px;
+        padding: 10px;
+        background-color: #ffffff;
+        border-bottom: 1px solid #dee2e6; /* Light Gray Border */
+    }
+
+    .property-card .details-item:last-child {
+        border-bottom: none;
+    }
+
+    .property-card .details-item strong {
+        margin-right: 5px;
+    }
+
+    .property-card .details-item .badge {
+        font-size: 1rem;
+        padding: 5px 10px;
+    }
+
+    /* Call-to-Action Buttons */
+    .cta-buttons a.btn {
+        border-radius: 30px;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        margin-right: 5px;
+        font-size: 0.9rem;
+    }
+
+    .cta-buttons a.btn:hover {
+        background-color: #d2691e; /* Chocolate */
+        color: white;
+    }
+
+    /* Enquiry Button */
+    .enquiry-button {
+        background-color: #d2691e; /* Chocolate */
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 5px 10px;
+        font-size: 0.9rem;
+        margin: 10px auto;
+        display: block;
+        transition: background-color 0.3s ease;
+    }
+
+    .enquiry-button:hover {
+        background-color: forestgreen; /* Chocolate */
+    }
+
+    /* View More Button */
+    .view-more-button {
+        background-color: #2f4f4f; /* Dark Slate Gray */
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 15px 30px;
+        font-size: 1rem;
+        margin: 20px auto;
+        display: block;
+        transition: background-color 0.3s ease;
+    }
+
+    .view-more-button:hover {
+        background-color: forestgreen; /* Chocolate */
+    }
+</style>
+
+<!-- Hero Search Section -->
+<div class="search-section">
+    <h1 class="mb-4">Find Your Perfect Property</h1>
+    <form>
+        <input class="form-control" type="search" placeholder="Search for properties" aria-label="Search" name="search">
+        <button class="btn btn-success" type="submit" aria-label="Search properties">Search</button>
+    </form>
+</div>
+
+<!-- Search Results Count -->
+<div class="container search-results-count">
+    <p class="text-muted">Showing {{ property_list|length }} of {{ num_results }} total properties</p>
+</div>
+
+<!-- Properties Grid -->
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+        {% for property in property_list %}
+        <div class="col">
+            <div class="card property-card h-100">
+                <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.name }}">
+                <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center">
+                        <i class="fa-solid fa-home me-2"></i>
+                        {{ property.name }}
+                    </h5>
+                    <p class="card-text text-truncate" title="{{ property.description }}">
+                        {{ property.description }}
+                    </p>
+                    <div class="details-item d-flex align-items-center">
+                        <i class="fa-solid fa-location-dot me-2"></i>
+                        <span>{{ property.address }}</span>
+                    </div>
+                    <div class="details-item d-flex align-items-center">
+                        <i class="fa-solid fa-dollar-sign me-2"></i>
+                        <span>{{ property.price }} Frw</span>
+                    </div>
+                    <div class="details-item d-flex align-items-center">
+                        <i class="fa-solid fa-circle-info me-2"></i>
+                        <span class="badge {% if property.status == 'Available' %}bg-success{% else %}bg-danger{% endif %}">
+                            {{ property.status }}
+                        </span>
+                    </div>
+                    <div class="details-item d-flex align-items-center">
+                        <i class="fa-solid fa-bed me-2"></i>
+                        <span>{{ property.bedrooms }} Bedrooms</span>
+                    </div>
+                    <div class="details-item d-flex align-items-center">
+                        <i class="fa-solid fa-shower me-2"></i>
+                        <span>{{ property.bathrooms }} Bathrooms</span>
+                    </div>
+                    <div class="details-item d-flex align-items-center">
+                        <i class="fa-solid fa-door-open me-2"></i>
+                        <span>{{ property.number_of_units }} unit(s)</span>
+                    </div>
+
+
+
+                </div>
+                <div class="card-footer border-0 text-center" style="background-color: #2f4f4f;">
+                    <button class="btn text-white w-100" onclick="window.location.href='{% url 'property_view' property.id %}'">
+                        <i class="fa-solid fa-eye me-2"></i>
+                        View Details
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- View More Button -->
+<div class="container text-center">
+    <button class="view-more-button" onclick="window.location.href='{% url 'property_list' %}'">
+        <i class="fa-solid fa-angle-right me-2"></i>
+        View More
+    </button>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

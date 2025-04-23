@@ -1,0 +1,143 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+
+<style>
+    /* Styling for card components */
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Styling for light buttons with hover effects */
+    .btn-light {
+        background-color: #f8f9fa;
+        transition: background-color 0.3s;
+    }
+
+    .btn-light:hover {
+        background-color: #e2e6ea;
+    }
+
+    /* Styling for primary buttons with hover effects */
+    .btn-primary {
+        background-color: #1a73e8;
+        border: none;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #155bb5;
+    }
+
+    /* Focus styling for form inputs */
+    .form-control:focus {
+        border-color: #1a73e8;
+        box-shadow: 0 0 5px rgba(26, 115, 232, 0.5);
+    }
+
+    /* Ensure dark text in the sender input */
+    #senderEmail {
+        color: #212529;
+    }
+</style>
+
+{% block content %}
+
+<div class="main-content flex-grow-1 p-4">
+    <!-- Header section -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h4 class="text-primary">Replying sender</h4>
+        </div>
+    </div>
+
+    <!-- Main card container -->
+    <div class="card shadow-sm border-0">
+        <!-- Card header with navigation and title -->
+        <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+            <div>
+                <!-- Back button -->
+                <button class="btn btn-light btn-sm rounded-circle me-2" onclick="window.history.back()">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <!-- Dynamic display of the name being replied to -->
+                <span class="text-secondary">Replying to: {{ message.name }}</span>
+                <!-- Dynamic display of the email being replied to -->
+
+            </div>
+            <!-- Close button -->
+            <button class="btn-close" aria-label="Close" onclick="window.history.back()"></button>
+        </div>
+        <div class="card-body">
+            <!-- Email reply form -->
+            <form method="POST" action="{% url 'send_email' %}" class="needs-validation" novalidate>
+                {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="senderEmail" class="form-label" style="color: dimgray">Message being replied to: {{ message.message }}</label>
+
+                </div>
+
+
+                <!-- Sender email input with label -->
+                <div class="mb-3">
+                    <label for="senderEmail" class="form-label">Sender</label>
+                    <input type="email" class="form-control border-0 border-bottom" id="senderEmail"
+                           name="sender_email" placeholder="From: sender@example.com" value="nsengimanaolivier100@gmail.com" required style="color: dimgray">
+                    <div class="invalid-feedback">Please provide a valid sender email.</div>
+                </div>
+
+                <!-- Recipient email input with label -->
+                <div class="mb-3">
+                    <label for="recipientEmail" class="form-label">Receiver</label>
+                    <input type="email" class="form-control border-0 border-bottom" id="recipientEmail"
+                           name="recipient_email" placeholder="To: recipient@example.com" value="{{ message.email }}" required style="color: dimgray">
+                    <div class="invalid-feedback">Please provide a valid recipient email.</div>
+                </div>
+
+                <!-- Email subject input with label -->
+                <div class="mb-3">
+                    <label for="emailSubject" class="form-label">Title</label>
+                    <input type="text" class="form-control border-0 border-bottom" id="emailSubject"
+                           name="subject" placeholder="Subject" required>
+                    <div class="invalid-feedback">Subject is required.</div>
+                </div>
+
+                <!-- Email body textarea with label -->
+                <div class="mb-3">
+                    <label for="emailBody" class="form-label">Message</label>
+                    <textarea class="form-control border-0" id="emailBody" name="body" rows="10"
+                              placeholder="Write your message here..." required></textarea>
+                    <div class="invalid-feedback">Message cannot be empty.</div>
+                </div>
+
+                <!-- Form action buttons -->
+                <div class="d-flex justify-content-end align-items-center">
+                    <button type="reset" class="btn btn-light me-2 rounded-pill px-4">
+                        Discard
+                    </button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        Send
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script for enabling Bootstrap form validation
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}

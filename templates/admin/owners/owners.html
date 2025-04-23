@@ -1,0 +1,124 @@
+{% extends 'admin/admin_base/admin_base.html' %}
+{% block content %}
+<div class="main-content flex-grow-1 p-4">
+    <!-- Filtering and search section -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h4><i class="fa fa-users"></i> Admin Owners Management</h4>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% elif message.tags == 'warning' %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% elif message.tags == 'info' %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% elif message.tags == 'success' %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+        <div class="col-md-6">
+            <form class="d-flex" method="GET" action="{% url 'admin_owners' %}">
+                <input class="form-control me-2" type="search" placeholder="Name or Email" aria-label="Search" id="searchInput" name="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Owners Management Section -->
+    <div id="owners" class="mt-4">
+        <h2>Manage Owners</h2>
+        <button class="btn btn-primary mb-3" onclick="window.location.href='{% url 'adding_owner' %}'"><i class="fa fa-plus"></i> Add Owner</button>
+
+        <table class="table" id="ownerTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for owner in owners %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ owner.name }}</td>
+                    <td>{{ owner.email }}</td>
+                    <td>{{ owner.phone_number }}</td>
+                    <td>{{ owner.address }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="window.location.href='{% url 'editing_owner' owner.id %}'"><i class="fa fa-edit"></i> Edit</button>
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteOwnerModal{{ owner.id }}"><i class="fa fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
+
+                <!-- Delete Owner Modal -->
+                <div class="modal fade" id="deleteOwnerModal{{ owner.id }}" tabindex="-1" aria-labelledby="deleteOwnerModalLabel{{ owner.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteOwnerModalLabel{{ owner.id }}">Delete Owner</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete {{ owner.name }}?</p>
+                                <form id="deleteOwnerForm{{ owner.id }}" method="POST" action="{% url 'delete_owner' owner.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if owners.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ owners.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% for num in owners.paginator.page_range %}
+                {% if owners.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > owners.number|add:'-3' and num < owners.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if owners.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ owners.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
